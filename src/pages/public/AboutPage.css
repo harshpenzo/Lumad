@@ -1,47 +1,76 @@
-/* AboutPage Styles — LUMAD Mission Control */
+/* AboutPage — matching Stitch design */
 
 .about-page {
-  padding-top: 100px;
+  padding-top: 80px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: var(--space-12);
+  gap: var(--space-16);
+  padding-bottom: var(--space-16);
 }
 
-/* ─── Hero Section ─────────────────────────────────────────── */
+/* ─── Hero ─────────────────────────────────────────── */
 .about-hero {
   text-align: center;
-  max-width: 900px !important;
+  max-width: 860px !important;
   margin: 0 auto;
+  padding-top: var(--space-12);
 }
 
 .about-hero__eyebrow {
-  color: var(--color-primary);
-  font-size: var(--text-xs);
-  letter-spacing: 0.15em;
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-2);
+  color: var(--color-on-surface-variant);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  margin-bottom: var(--space-4);
   display: block;
 }
 
 .about-hero__title {
-  font-size: clamp(var(--text-4xl), 8vw, var(--text-6xl));
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-on-surface);
   margin-bottom: var(--space-4);
-  line-height: 1.1;
 }
 
-.about-hero__title .accent {
-  color: var(--color-secondary);
+.about-hero__title-accent {
+  background: linear-gradient(90deg, #f5a623, #ffd18c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.about-hero__desc {
-  font-size: var(--text-lg);
+.about-hero__lead {
   color: var(--color-on-surface-variant);
-  max-width: 600px;
-  margin: 0 auto;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
 }
 
-/* ─── The Way Section ─────────────────────────────────────────── */
+/* ─── Quote ─────────────────────────────────────────── */
+.about-quote {
+  padding: var(--space-10) 0;
+  background: rgba(245, 166, 35, 0.04);
+  border-top: 1px solid rgba(245, 166, 35, 0.1);
+  border-bottom: 1px solid rgba(245, 166, 35, 0.1);
+}
+
+.about-quote__blockquote {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: var(--space-6);
+  border-left: 3px solid var(--color-primary);
+}
+
+.about-quote__blockquote p {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+  color: var(--color-on-surface);
+  line-height: 1.5;
+}
+
+/* ─── Old/New Way ─────────────────────────────────────────── */
 .about-way__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -55,21 +84,36 @@
   gap: var(--space-4);
 }
 
+.about-way__card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.about-way__icon {
+  font-size: 1.25rem;
+  color: var(--color-on-surface-variant);
+}
+
+.about-way__icon--amber { color: var(--color-primary); }
+
+.about-way__mono {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--color-on-surface-variant);
+}
+
+.about-way__mono--amber { color: var(--color-primary); }
+
 .about-way__card--old {
-  border-color: rgba(255, 180, 171, 0.15) !important;
+  border-color: rgba(255, 100, 100, 0.15) !important;
 }
 
 .about-way__card--lumad {
   border-color: rgba(245, 166, 35, 0.3) !important;
 }
-
-.about-way__card-title {
-  font-size: var(--text-2xl);
-  font-family: var(--font-display);
-}
-
-.about-way__card--old .about-way__card-title { color: var(--color-error); }
-.about-way__card--lumad .about-way__card-title { color: var(--color-primary); }
 
 .about-way__list {
   list-style: none;
@@ -80,51 +124,194 @@
 
 .about-way__list li {
   display: flex;
-  gap: var(--space-2);
+  gap: var(--space-3);
   align-items: flex-start;
 }
 
-.about-way__list .icon {
-  font-size: var(--text-xl);
-  font-weight: 800;
-  margin-top: -2px;
+.about-way__bullet {
+  font-size: 0.8rem;
+  font-weight: 900;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  margin-top: 2px;
 }
 
-.about-way__card--old .icon { color: var(--color-error); }
-.about-way__card--lumad .icon { color: var(--color-primary); }
+.about-way__bullet--bad {
+  background: rgba(255, 100, 100, 0.12);
+  color: #ff6464;
+  border: 1px solid rgba(255, 100, 100, 0.2);
+}
+
+.about-way__bullet--good {
+  background: rgba(245, 166, 35, 0.12);
+  color: var(--color-primary);
+  border: 1px solid rgba(245, 166, 35, 0.2);
+}
 
 .about-way__list strong {
   display: block;
-  font-size: var(--text-base);
-  margin-bottom: 0.25rem;
+  font-size: var(--text-sm);
+  margin-bottom: 0.2rem;
   color: var(--color-on-surface);
 }
 
 .about-way__list p {
-  font-size: var(--text-sm);
+  font-size: 0.8rem;
+  color: var(--color-on-surface-variant);
+  line-height: 1.5;
 }
 
-/* ─── Team Section ─────────────────────────────────────────────── */
+/* ─── Network Map ─────────────────────────────────────────── */
+.about-network__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.about-network__map-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-network__map {
+  position: relative;
+  width: 280px;
+  height: 360px;
+}
+
+.about-network__svg {
+  width: 100%;
+  height: 100%;
+}
+
+.about-network__dot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.dot-pulse {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.about-network__dot:nth-child(2) .dot-pulse { animation-delay: 0.3s; }
+.about-network__dot:nth-child(3) .dot-pulse { animation-delay: 0.6s; }
+.about-network__dot:nth-child(4) .dot-pulse { animation-delay: 0.9s; }
+.about-network__dot:nth-child(5) .dot-pulse { animation-delay: 1.2s; }
+
+.dot-label {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  color: var(--color-primary);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.about-network__dot:hover .dot-label { opacity: 1; }
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.6; }
+}
+
+.about-network__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.about-network__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+  color: var(--color-on-surface);
+}
+
+.about-network__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.about-network__tag {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.75rem;
+  border-radius: 50px;
+  background: rgba(245, 166, 35, 0.08);
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  color: var(--color-primary);
+}
+
+.about-network__desc {
+  font-size: var(--text-sm);
+  color: var(--color-on-surface-variant);
+  line-height: 1.7;
+  max-width: 45ch;
+}
+
+.about-network__stat {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+}
+
+/* ─── Team ─────────────────────────────────────────────────── */
 .about-team__header {
   text-align: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-10);
 }
 
-.about-team__header h2 {
-  font-size: var(--text-4xl);
-  margin-top: var(--space-2);
+.about-team__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-on-surface);
+  margin-bottom: var(--space-3);
+}
+
+.about-team__accent {
+  width: 60px;
+  height: 3px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  margin: 0 auto;
 }
 
 .about-team__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-4);
-  margin-bottom: var(--space-12);
+  margin-bottom: var(--space-10);
 }
 
 .team-card {
   text-align: center;
-  padding: var(--space-6) !important;
+  padding: var(--space-5) !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,55 +319,78 @@
 }
 
 .team-card__image-wrap {
-  width: 120px;
-  height: 120px;
-  border-radius: var(--radius-full);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
   overflow: hidden;
-  border: 2px solid var(--color-primary);
+  border: 2px solid rgba(245, 166, 35, 0.4);
   margin-bottom: var(--space-2);
-  box-shadow: var(--glow-primary);
 }
 
 .team-card__image {
   width: 100%;
   height: 100%;
-  object-fit: crop;
+  object-fit: cover;
 }
 
 .team-card__name {
-  font-size: var(--text-xl);
+  font-size: var(--text-base);
+  font-weight: 700;
   color: var(--color-on-surface);
 }
 
 .team-card__role {
   color: var(--color-primary);
-  font-size: 0.7rem;
-  font-weight: var(--font-weight-bold);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
 .team-card__bio {
-  font-size: var(--text-sm);
+  font-size: 0.75rem;
   color: var(--color-on-surface-variant);
+  line-height: 1.5;
 }
 
-/* ─── Advisors ──────────────────────────────────────────────── */
+.team-card__socials {
+  margin-top: var(--space-1);
+}
+
+.team-card__social-icon {
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: 4px;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.team-card__social-icon:hover {
+  background: rgba(245, 166, 35, 0.15);
+}
+
+/* ─── Advisors ────────────────────────────────────────────── */
 .about-advisors {
   text-align: center;
-  background: rgba(14, 14, 19, 0.40);
+  padding: var(--space-6);
   border: 1px dashed rgba(159, 142, 122, 0.2);
   border-radius: var(--radius-lg);
-  padding: var(--space-6);
+  background: rgba(14, 14, 19, 0.4);
 }
 
 .about-advisors__title {
-  font-size: var(--text-xs);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--color-on-surface-variant);
   margin-bottom: var(--space-6);
-  color: var(--color-text-secondary);
+  display: block;
 }
 
 .about-advisors__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-4);
 }
 
@@ -191,20 +401,17 @@
 }
 
 .advisor-name {
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
+  font-size: var(--text-sm);
   color: var(--color-on-surface);
 }
 
 .advisor-role {
-  font-size: var(--text-xs);
+  font-size: 0.7rem;
   color: var(--color-on-surface-variant);
 }
 
-/* ─── CTA ───────────────────────────────────────────────────── */
-.about-cta {
-  padding-bottom: var(--space-20);
-}
-
+/* ─── CTA ──────────────────────────────────────────────────── */
 .about-cta__card {
   text-align: center;
   padding: var(--space-10) !important;
@@ -214,24 +421,46 @@
   gap: var(--space-4);
 }
 
-.about-cta__card h2 { font-size: var(--text-4xl); }
-.about-cta__card p { max-width: 500px; }
+.about-cta__card h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+}
+
+.about-cta__card p {
+  max-width: 55ch;
+  color: var(--color-on-surface-variant);
+  line-height: 1.6;
+}
+
 .about-cta__actions {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
   margin-top: var(--space-2);
 }
 
-/* ─── Mobile ────────────────────────────────────────────────── */
-@media (max-width: 900px) {
-  .about-way__grid {
-    grid-template-columns: 1fr;
-  }
+/* ─── Mobile ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
   .about-team__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
-  .about-cta__actions {
-    flex-direction: column;
-    width: 100%;
+  .about-advisors__grid {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+
+@media (max-width: 768px) {
+  .about-page { gap: var(--space-10); }
+  .about-way__grid { grid-template-columns: 1fr; }
+  .about-network__grid { grid-template-columns: 1fr; }
+  .about-network__map-wrap { display: none; } /* Hide map on mobile */
+  .about-team__grid { grid-template-columns: repeat(2, 1fr); }
+  .about-advisors__grid { grid-template-columns: repeat(2, 1fr); }
+  .about-cta__actions { flex-direction: column; align-items: stretch; width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .about-team__grid { grid-template-columns: 1fr; }
+  .about-advisors__grid { grid-template-columns: 1fr; }
 }

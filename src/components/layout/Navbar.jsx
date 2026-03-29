@@ -15,7 +15,7 @@ import './Navbar.css'
 const NAV_LINKS = [
   { label: 'Platform',  to: '/features' },
   { label: 'Inventory', to: '/discover' },
-  { label: 'Solutions', to: '/about' },
+  { label: 'About',     to: '/about' },
   { label: 'Pricing',   to: '/pricing' },
 ]
 

@@ -4,13 +4,13 @@ import StatsRow from '../../components/sections/StatsRow'
 import AudienceCards from '../../components/sections/AudienceCards'
 import ScreenCarousel from '../../components/sections/ScreenCarousel'
 import IntelligenceSection from '../../components/sections/IntelligenceSection'
+import WaitlistSection from '../../components/sections/WaitlistSection'
 import FinalCTA from '../../components/sections/FinalCTA'
 
 /**
  * HomePage
- * Assembles all Phase 1 sections in the correct order from Stitch design.
- * Each section has its own scroll reveal animation.
- * SEO: single <h1> is in HeroSection.
+ * Assembles all homepage sections. WaitlistSection is added before FinalCTA
+ * as the penultimate section, matching the Stitch design spec.
  */
 export default function HomePage() {
   return (
@@ -21,6 +21,7 @@ export default function HomePage() {
       <AudienceCards />
       <ScreenCarousel />
       <IntelligenceSection />
+      <WaitlistSection />
       <FinalCTA />
     </main>
   )
