@@ -2,6 +2,7 @@ import { useScrollReveal } from '../../hooks/useScrollReveal'
 import GlassCard from '../../components/ui/GlassCard'
 import AmberButton from '../../components/ui/AmberButton'
 import GhostButton from '../../components/ui/GhostButton'
+import WaitlistSection from '../../components/sections/WaitlistSection'
 import './AboutPage.css'
 
 const TEAM = [
@@ -38,13 +39,13 @@ const ADVISORS = [
   { name: 'Priya D.',      role: 'Agency Leader' }
 ]
 
-// City dot positions tuned to the proper India polygon SVG below
+// City dot positions matched to the centered India polygon below
 const CITY_DOTS = [
-  { name: 'Delhi',     cx: 185, cy: 128 },
-  { name: 'Mumbai',    cx: 130, cy: 238 },
-  { name: 'Hyderabad', cx: 195, cy: 268 },
-  { name: 'Bengaluru', cx: 185, cy: 320 },
-  { name: 'Chennai',   cx: 210, cy: 338 },
+  { name: 'Delhi',     cx: 210, cy: 128 },
+  { name: 'Mumbai',    cx: 155, cy: 238 },
+  { name: 'Hyderabad', cx: 218, cy: 265 },
+  { name: 'Bengaluru', cx: 208, cy: 318 },
+  { name: 'Chennai',   cx: 230, cy: 336 },
 ]
 
 export default function AboutPage() {
@@ -164,25 +165,25 @@ export default function AboutPage() {
                   </radialGradient>
                 </defs>
 
-                {/* Accurate India polygon outline */}
+                {/* Centered India polygon — shifted +25px right to center in viewBox */}
                 <polygon
                   points="
-                    170,18  185,15  205,22  220,18  240,28
-                    258,38  268,55  272,75  268,92  278,108
-                    285,128 280,148 268,160 275,178 268,196
-                    278,212 272,228 258,242 248,258 255,272
-                    248,285 235,298 225,312 215,328 208,345
-                    200,362 195,378 190,395 185,410 180,422
-                    175,410 170,395 165,378 158,360 148,342
-                    138,328 125,315 112,300 98,288 85,275
-                    72,260 62,245 55,228 48,212 42,195
-                    38,178 32,162 28,145 25,128 22,110
-                    28,92   35,75   42,58   52,42   65,30
-                    82,22   100,16  118,14  138,12  155,15
+                    195,18  210,15  228,22  244,18  262,28
+                    278,38  288,55  292,75  288,92  298,108
+                    305,128 300,148 288,160 294,178 288,196
+                    296,212 290,228 276,242 266,258 272,272
+                    265,285 252,298 242,312 232,328 224,345
+                    216,362 210,378 205,395 200,410 195,422
+                    190,410 185,395 178,378 170,360 160,342
+                    150,328 138,315 124,300 110,288 98,275
+                    86,260  76,245  68,228  60,212  54,195
+                    48,178  42,162  38,145  35,128  32,110
+                    38,92   44,75   52,58   62,42   74,30
+                    90,22   108,16  126,14  146,12  164,15
                   "
                   fill="url(#indiaGlow)"
-                  stroke="rgba(245,166,35,0.45)"
-                  strokeWidth="1.2"
+                  stroke="rgba(245,166,35,0.5)"
+                  strokeWidth="1.5"
                   strokeLinejoin="round"
                 />
 
@@ -281,6 +282,8 @@ export default function AboutPage() {
           </div>
         </GlassCard>
       </section>
+      {/* ── Waitlist ─────────────────────────────────────── */}
+      <WaitlistSection />
 
     </main>
   )
