@@ -1,15 +1,15 @@
 /* WaitlistSection — matching Stitch "Join Waitlist" design */
 
 .waitlist {
-  background: var(--bg-dark);
-  border-top: 1px solid rgba(245, 166, 35, 0.1);
+  background: #0e0e13;
+  border-top: 1px solid rgba(245, 166, 35, 0.12);
+  position: relative;
 }
 
 .waitlist__inner {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   gap: var(--space-6);
-  min-height: 100vh;
   align-items: center;
   padding-top: var(--space-16);
   padding-bottom: var(--space-16);
@@ -61,10 +61,8 @@
 
 .waitlist__headline-em {
   font-style: italic;
-  background: linear-gradient(90deg, #f5a623, #ff8c42);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #f5a623;
+  -webkit-text-fill-color: #f5a623;
 }
 
 .waitlist__benefits {
@@ -121,11 +119,10 @@
 
 /* ─── Right Panel ──────────────────────────────────────── */
 .waitlist__right {
-  background: rgba(25, 25, 32, 0.9);
-  border: 1px solid rgba(82, 69, 52, 0.3);
-  border-radius: var(--radius-xl);
+  background: #181820;
+  border: 1px solid rgba(82, 69, 52, 0.4);
+  border-radius: 20px;
   padding: var(--space-8);
-  backdrop-filter: blur(20px);
 }
 
 /* ─── Form ──────────────────────────────────────────────── */
@@ -217,7 +214,7 @@
 .waitlist__submit {
   width: 100%;
   padding: 1rem;
-  background: var(--color-primary);
+  background: #f5a623;
   border: none;
   border-radius: var(--radius-full);
   color: #000;
@@ -227,12 +224,13 @@
   letter-spacing: 0.12em;
   cursor: pointer;
   transition: all var(--transition-fast);
-  box-shadow: 0 0 30px rgba(245, 166, 35, 0.3);
+  box-shadow: 0 4px 24px rgba(245, 166, 35, 0.35);
+  margin-top: var(--space-1);
 }
 
 .waitlist__submit:hover {
-  background: #f5b93f;
-  box-shadow: 0 0 40px rgba(245, 166, 35, 0.5);
+  background: #ffb940;
+  box-shadow: 0 4px 32px rgba(245, 166, 35, 0.5);
   transform: translateY(-1px);
 }
 
@@ -289,7 +287,7 @@
 }
 
 .waitlist__direct-email {
-  color: var(--color-secondary);
+  color: #3cd7ff;
   font-size: var(--text-sm);
   text-decoration: none;
   font-weight: 500;

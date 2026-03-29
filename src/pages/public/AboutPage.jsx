@@ -38,12 +38,13 @@ const ADVISORS = [
   { name: 'Priya D.',      role: 'Agency Leader' }
 ]
 
+// City dot positions tuned to the proper India polygon SVG below
 const CITY_DOTS = [
-  { name: 'Mumbai',    top: '57%',  left: '22%' },
-  { name: 'Delhi',     top: '30%',  left: '38%' },
-  { name: 'Bengaluru', top: '72%',  left: '36%' },
-  { name: 'Chennai',   top: '78%',  left: '40%' },
-  { name: 'Hyderabad', top: '63%',  left: '39%' },
+  { name: 'Delhi',     cx: 185, cy: 128 },
+  { name: 'Mumbai',    cx: 130, cy: 238 },
+  { name: 'Hyderabad', cx: 195, cy: 268 },
+  { name: 'Bengaluru', cx: 185, cy: 320 },
+  { name: 'Chennai',   cx: 210, cy: 338 },
 ]
 
 export default function AboutPage() {
@@ -60,13 +61,11 @@ export default function AboutPage() {
       <section className="about-hero container reveal" ref={heroRef}>
         <p className="about-hero__eyebrow mono">OUR MISSION · LUMAD KINETIC</p>
         <h1 className="about-hero__title">
-          We're building the infrastructure for<br />
-          <span className="about-hero__title-accent">physical-world advertising</span><br />
-          in India.
+          We're building the infrastructure<br />
+          for <span className="about-hero__title-accent">physical-world</span><br />
+          <span className="about-hero__title-accent">advertising</span> in India.
         </h1>
-        <p className="about-hero__lead mono">
-          For brands. For streets. For every screen.
-        </p>
+        <p className="about-hero__lead mono">For brands. For streets. For every screen.</p>
       </section>
 
       {/* ── Vision Quote ────────────────────────────────── */}
@@ -151,32 +150,66 @@ export default function AboutPage() {
       <section className="about-network container reveal" ref={mapRef}>
         <div className="about-network__grid">
           <div className="about-network__map-wrap">
-            {/* Stylized India map with pulsing city dots */}
             <div className="about-network__map">
-              <svg viewBox="0 0 300 380" className="about-network__svg" aria-hidden="true">
-                {/* Simplified India outline */}
-                <path
-                  d="M120,10 L170,8 L210,25 L235,55 L250,90 L255,130 L245,165 L265,200
-                     L260,230 L240,260 L210,285 L190,310 L175,340 L165,370 L155,370
-                     L145,340 L130,305 L110,280 L85,255 L60,230 L45,200 L30,165
-                     L25,130 L35,90 L55,60 L80,35 L105,18 Z"
-                  fill="rgba(245, 166, 35, 0.06)"
-                  stroke="rgba(245, 166, 35, 0.3)"
-                  strokeWidth="1.5"
+              <svg
+                viewBox="0 0 340 430"
+                className="about-network__svg"
+                aria-label="Map of India showing LUMAD screen network cities"
+              >
+                {/* Filled India background (glow effect) */}
+                <defs>
+                  <radialGradient id="indiaGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#f5a623" stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="#f5a623" stopOpacity="0.02" />
+                  </radialGradient>
+                </defs>
+
+                {/* Accurate India polygon outline */}
+                <polygon
+                  points="
+                    170,18  185,15  205,22  220,18  240,28
+                    258,38  268,55  272,75  268,92  278,108
+                    285,128 280,148 268,160 275,178 268,196
+                    278,212 272,228 258,242 248,258 255,272
+                    248,285 235,298 225,312 215,328 208,345
+                    200,362 195,378 190,395 185,410 180,422
+                    175,410 170,395 165,378 158,360 148,342
+                    138,328 125,315 112,300 98,288 85,275
+                    72,260 62,245 55,228 48,212 42,195
+                    38,178 32,162 28,145 25,128 22,110
+                    28,92   35,75   42,58   52,42   65,30
+                    82,22   100,16  118,14  138,12  155,15
+                  "
+                  fill="url(#indiaGlow)"
+                  stroke="rgba(245,166,35,0.45)"
+                  strokeWidth="1.2"
+                  strokeLinejoin="round"
                 />
+
+                {/* City glow dots positioned on the SVG coordinate system */}
+                {CITY_DOTS.map((city) => (
+                  <g key={city.name}>
+                    {/* outer pulse ring */}
+                    <circle cx={city.cx} cy={city.cy} r="10" fill="rgba(245,166,35,0.12)">
+                      <animate attributeName="r" values="8;14;8" dur="2.5s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.5s" repeatCount="indefinite" />
+                    </circle>
+                    {/* inner solid dot */}
+                    <circle cx={city.cx} cy={city.cy} r="4.5" fill="#f5a623" opacity="0.9" />
+                    {/* city name label */}
+                    <text
+                      x={city.cx + 8}
+                      y={city.cy + 4}
+                      fontSize="10"
+                      fill="rgba(245,166,35,0.75)"
+                      fontFamily="monospace"
+                      letterSpacing="0.5"
+                    >
+                      {city.name}
+                    </text>
+                  </g>
+                ))}
               </svg>
-              {/* City dots */}
-              {CITY_DOTS.map((city) => (
-                <div
-                  key={city.name}
-                  className="about-network__dot"
-                  style={{ top: city.top, left: city.left }}
-                  title={city.name}
-                >
-                  <span className="dot-pulse" />
-                  <span className="dot-label">{city.name}</span>
-                </div>
-              ))}
             </div>
           </div>
 
