@@ -1,0 +1,49 @@
+/* IndiaNetworkMap — static Leaflet dark map for About page */
+
+.india-map-wrapper {
+  width: 100%;
+  height: 420px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(245, 166, 35, 0.15);
+  position: relative;
+}
+
+.india-map {
+  width: 100%;
+  height: 100%;
+  background: #0e0e13;
+}
+
+/* Override Leaflet attribution (hidden) */
+.india-map .leaflet-control-attribution {
+  display: none !important;
+}
+
+/* City label tooltips */
+.india-map__tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: rgba(245, 166, 35, 0.85) !important;
+  font-family: 'Space Mono', monospace !important;
+  font-size: 0.6rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  white-space: nowrap !important;
+  padding: 0 !important;
+}
+
+.india-map__tooltip::before {
+  display: none !important;
+}
+
+/* Pulsing glow animation on city markers */
+.leaflet-interactive {
+  animation: mapGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes mapGlow {
+  from { opacity: 0.85; }
+  to   { opacity: 1; filter: drop-shadow(0 0 6px #f5a623); }
+}

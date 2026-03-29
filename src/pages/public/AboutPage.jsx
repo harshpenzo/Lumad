@@ -3,6 +3,7 @@ import GlassCard from '../../components/ui/GlassCard'
 import AmberButton from '../../components/ui/AmberButton'
 import GhostButton from '../../components/ui/GhostButton'
 import WaitlistSection from '../../components/sections/WaitlistSection'
+import IndiaNetworkMap from '../../components/sections/IndiaNetworkMap'
 import './AboutPage.css'
 
 const TEAM = [
@@ -39,14 +40,6 @@ const ADVISORS = [
   { name: 'Priya D.',      role: 'Agency Leader' }
 ]
 
-// City dot positions matched to the centered India polygon below
-const CITY_DOTS = [
-  { name: 'Delhi',     cx: 210, cy: 128 },
-  { name: 'Mumbai',    cx: 155, cy: 238 },
-  { name: 'Hyderabad', cx: 218, cy: 265 },
-  { name: 'Bengaluru', cx: 208, cy: 318 },
-  { name: 'Chennai',   cx: 230, cy: 336 },
-]
 
 export default function AboutPage() {
   const heroRef   = useScrollReveal(0.1)
@@ -151,67 +144,7 @@ export default function AboutPage() {
       <section className="about-network container reveal" ref={mapRef}>
         <div className="about-network__grid">
           <div className="about-network__map-wrap">
-            <div className="about-network__map">
-              <svg
-                viewBox="0 0 340 430"
-                className="about-network__svg"
-                aria-label="Map of India showing LUMAD screen network cities"
-              >
-                {/* Filled India background (glow effect) */}
-                <defs>
-                  <radialGradient id="indiaGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#f5a623" stopOpacity="0.08" />
-                    <stop offset="100%" stopColor="#f5a623" stopOpacity="0.02" />
-                  </radialGradient>
-                </defs>
-
-                {/* Centered India polygon — shifted +25px right to center in viewBox */}
-                <polygon
-                  points="
-                    195,18  210,15  228,22  244,18  262,28
-                    278,38  288,55  292,75  288,92  298,108
-                    305,128 300,148 288,160 294,178 288,196
-                    296,212 290,228 276,242 266,258 272,272
-                    265,285 252,298 242,312 232,328 224,345
-                    216,362 210,378 205,395 200,410 195,422
-                    190,410 185,395 178,378 170,360 160,342
-                    150,328 138,315 124,300 110,288 98,275
-                    86,260  76,245  68,228  60,212  54,195
-                    48,178  42,162  38,145  35,128  32,110
-                    38,92   44,75   52,58   62,42   74,30
-                    90,22   108,16  126,14  146,12  164,15
-                  "
-                  fill="url(#indiaGlow)"
-                  stroke="rgba(245,166,35,0.5)"
-                  strokeWidth="1.5"
-                  strokeLinejoin="round"
-                />
-
-                {/* City glow dots positioned on the SVG coordinate system */}
-                {CITY_DOTS.map((city) => (
-                  <g key={city.name}>
-                    {/* outer pulse ring */}
-                    <circle cx={city.cx} cy={city.cy} r="10" fill="rgba(245,166,35,0.12)">
-                      <animate attributeName="r" values="8;14;8" dur="2.5s" repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.5s" repeatCount="indefinite" />
-                    </circle>
-                    {/* inner solid dot */}
-                    <circle cx={city.cx} cy={city.cy} r="4.5" fill="#f5a623" opacity="0.9" />
-                    {/* city name label */}
-                    <text
-                      x={city.cx + 8}
-                      y={city.cy + 4}
-                      fontSize="10"
-                      fill="rgba(245,166,35,0.75)"
-                      fontFamily="monospace"
-                      letterSpacing="0.5"
-                    >
-                      {city.name}
-                    </text>
-                  </g>
-                ))}
-              </svg>
-            </div>
+            <IndiaNetworkMap />
           </div>
 
           <div className="about-network__content">
