@@ -1,0 +1,67 @@
+/* GhostButton — Stitch designMd: outlined, no fill, secondary_container hover */
+
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  background: transparent;
+
+  /* outline border from Stitch tokens */
+  border: 1px solid var(--color-outline);
+  color: var(--color-on-surface);
+
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+/* Hover: secondary_container fill at 10% opacity */
+.ghost-btn:hover:not(:disabled) {
+  background: rgba(0, 210, 253, 0.10);
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+  transform: translateY(-1px);
+}
+
+.ghost-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.ghost-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── Sizes ─────────────────── */
+.ghost-btn--sm {
+  padding: 0.5rem 1.25rem;
+  font-size: var(--text-sm);
+}
+.ghost-btn--md {
+  padding: 0.75rem 1.75rem;
+  font-size: var(--text-base);
+}
+.ghost-btn--lg {
+  padding: 1rem 2.5rem;
+  font-size: var(--text-lg);
+}
+
+.ghost-btn--full {
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .ghost-btn--lg {
+    padding: 0.875rem 2rem;
+    font-size: var(--text-base);
+  }
+}

@@ -1,0 +1,121 @@
+/* ScreenCarousel — fixed layout so header never overlaps cards */
+
+.carousel-section {
+  padding: var(--space-16) 0;
+  /* NOTE: no overflow:hidden here — it was causing the scrollable track to clip */
+}
+
+/* ─── Header ────────────────────────────────────────────────────────────── */
+.carousel-section__header {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: flex-start keeps nav arrows at the top, not misaligned at bottom */
+  align-items: flex-start;
+  gap: var(--space-4);
+  /* Enough bottom padding so track never bleeds into this area */
+  padding-bottom: var(--space-5);
+}
+
+.carousel-section__title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.carousel-section__eyebrow {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-1);
+}
+
+.carousel-section__title {
+  font-size: clamp(var(--text-3xl), 4vw, var(--text-4xl));
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: -0.03em;
+  color: var(--color-on-surface);
+  line-height: 1.1;
+}
+
+.carousel-section__sub {
+  font-size: var(--text-sm);
+  color: var(--color-on-surface-variant);
+  margin-top: var(--space-2);
+  max-width: 50ch;
+  line-height: 1.7;
+}
+
+/* Nav arrows sit at top-right */
+.carousel-section__nav {
+  display: flex;
+  gap: var(--space-1);
+  flex-shrink: 0;
+  padding-top: 0.25rem; /* optical alignment with eyebrow */
+}
+
+.carousel-section__arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-surface-container-high);
+  border: 1px solid rgba(159, 142, 122, 0.20);
+  color: var(--color-on-surface);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.carousel-section__arrow:hover {
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--color-primary);
+}
+
+/* ─── Track wrap — sits below the header with guaranteed margin ──────────── */
+.carousel-section__track-wrap {
+  /* margin-top ensures cards NEVER bleed into the header text */
+  margin-top: var(--space-2);
+  padding-left: max(var(--space-3), calc((100vw - 1280px) / 2 + var(--space-3)));
+  /* Clip horizontally for the bleed effect, but not vertically */
+  overflow-x: hidden;
+}
+
+.carousel-section__track {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--space-3);
+  padding-right: var(--space-3);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-outline-variant) transparent;
+  /* Allow horizontal scroll but constrain height cleanly */
+  align-items: stretch;
+}
+
+.carousel-section__track > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ─── Mobile ─────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .carousel-section {
+    padding: var(--space-10) 0;
+  }
+  .carousel-section__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  .carousel-section__nav {
+    padding-top: 0;
+  }
+  .carousel-section__track-wrap {
+    padding-left: var(--space-2);
+    margin-top: var(--space-2);
+  }
+}

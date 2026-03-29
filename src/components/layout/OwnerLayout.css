@@ -1,0 +1,138 @@
+.owner-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-dark);
+}
+
+.owner-sidebar {
+  width: 260px;
+  background: rgba(18, 16, 21, 0.95);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.sidebar-header {
+  padding: var(--space-6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.sidebar-brand span {
+  font-size: 0.75rem;
+  color: var(--brand-orange);
+  background: rgba(255, 185, 85, 0.15);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  font-family: 'Space Mono', monospace;
+  text-transform: uppercase;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) 0;
+  flex: 1;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem var(--space-6);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.sidebar-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--brand-orange);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-link:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sidebar-link.active {
+  color: var(--brand-orange);
+  background: rgba(255, 185, 85, 0.05);
+}
+
+.sidebar-link.active::before {
+  transform: scaleY(1);
+}
+
+.sidebar-icon {
+  font-size: 1.25rem;
+}
+
+.sidebar-footer {
+  padding: var(--space-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.owner-logout {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.owner-logout:hover {
+  background: rgba(255, 68, 68, 0.1);
+  color: #ff8888;
+  border-color: rgba(255, 68, 68, 0.3);
+}
+
+.owner-main {
+  flex: 1;
+  margin-left: 260px; /* Offset for sidebar */
+  padding: var(--space-8) var(--space-10);
+  max-width: 1400px;
+}
+
+@media (max-width: 900px) {
+  .owner-sidebar {
+    transform: translateX(-100%);
+  }
+  .owner-main {
+    margin-left: 0;
+    padding: var(--space-6);
+  }
+  /* In a real app we'd add a hamburger menu for the owner portal on mobile */
+}

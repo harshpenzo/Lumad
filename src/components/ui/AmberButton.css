@@ -1,0 +1,78 @@
+/* AmberButton — sourced from Stitch designMd spec */
+
+.amber-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast),
+    background var(--transition-fast);
+
+  /* Signature gradient from designMd: primary → primary_container */
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-container) 100%
+  );
+  color: var(--color-on-primary);
+}
+
+/* Hover: 2px primary glow as per Stitch designMd */
+.amber-btn:hover:not(:disabled) {
+  box-shadow: 0 0 0 2px var(--color-primary),
+              var(--glow-primary-hover);
+  transform: translateY(-1px);
+}
+
+.amber-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--glow-primary-active);
+}
+
+.amber-btn:disabled,
+.amber-btn[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Size variants ─────────── */
+.amber-btn--sm {
+  padding: 0.5rem 1.25rem;
+  font-size: var(--text-sm);
+}
+.amber-btn--md {
+  padding: 0.75rem 1.75rem;
+  font-size: var(--text-base);
+}
+.amber-btn--lg {
+  padding: 1rem 2.5rem;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ─── Full width ─────────────── */
+.amber-btn--full {
+  width: 100%;
+}
+
+/* ─── Pulse variant ──────────── */
+.amber-btn--pulse {
+  animation: glowPulse 2.5s ease-in-out infinite;
+}
+
+/* ─── Mobile responsive ─────── */
+@media (max-width: 480px) {
+  .amber-btn--lg {
+    padding: 0.875rem 2rem;
+    font-size: var(--text-base);
+  }
+}

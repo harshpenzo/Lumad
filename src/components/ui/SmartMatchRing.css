@@ -1,0 +1,29 @@
+/* SmartMatchRing */
+.match-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.match-ring__progress {
+  animation: ringDraw 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation-delay: 0.3s;
+}
+
+.match-ring__label {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+}
+
+.match-ring__unit {
+  font-size: 0.55rem;
+  opacity: 0.75;
+}

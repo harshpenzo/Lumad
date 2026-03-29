@@ -1,0 +1,277 @@
+/* IntelligenceSection Redesign */
+.intel {
+  padding: var(--space-16) 0;
+  background: var(--bg-dark); /* Ensure dark bg */
+}
+
+/* Base Layout */
+.intel__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-10);
+  align-items: center;
+}
+
+/* Left Column Styling */
+.intel__left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.intel__eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #a2e7ff; /* light blue tracking font */
+  margin-bottom: 0.5rem;
+}
+
+.intel__title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.intel__title-accent {
+  font-style: italic;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff, #a2e7ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.intel__desc {
+  font-size: 1.05rem;
+  color: var(--color-on-surface-variant);
+  line-height: 1.6;
+  max-width: 500px;
+  margin-bottom: 1rem;
+}
+
+.intel__features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.intel__feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.intel__feature-icon-wrapper {
+  color: #a2e7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+.intel__feature-text h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.intel__feature-text p {
+  font-size: 0.9rem;
+  color: var(--color-on-surface-variant);
+  line-height: 1.5;
+  max-width: 400px;
+}
+
+/* Right Column - Smart Match Card Styling */
+.intel__right {
+  display: flex;
+  justify-content: center;
+}
+
+.intel__match-card {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(30, 30, 35, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 24px !important;
+  padding: 2rem !important;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header */
+.intel__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.intel__card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #48c774; /* green dot */
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(72, 199, 116, 0.5);
+}
+
+.intel__card-badge {
+  position: relative;
+  width: 44px;
+  height: 44px;
+}
+
+.circular-chart {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 3.8;
+}
+
+.circle-fg {
+  fill: none;
+  stroke: #f5a623;
+  stroke-width: 3.8;
+  stroke-linecap: round;
+}
+
+.badge-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Chart */
+.intel__chart-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.intel__chart-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.intel__chart-labels .chart-label-right {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.intel__chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 80px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.25rem;
+}
+
+.chart-bar {
+  width: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.chart-bar.peak {
+  background: #deb887; /* Bright beige for peaks */
+}
+
+/* Stats */
+.intel__stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.intel__stat-box {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f5a623;
+}
+
+/* Buttons */
+.intel__card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.intel-ghost-btn {
+  background: transparent;
+  color: #f5a623;
+  border: 1px solid #f5a623;
+  padding: 0.75rem;
+  border-radius: 50px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.intel-ghost-btn:hover {
+  background: rgba(245, 166, 35, 0.1);
+  box-shadow: 0 0 10px rgba(245, 166, 35, 0.2);
+}
+
+@media (max-width: 900px) {
+  .intel__inner { grid-template-columns: 1fr; }
+  .intel__right { margin-top: 3rem; }
+}

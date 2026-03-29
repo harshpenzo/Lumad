@@ -1,0 +1,149 @@
+/*
+ * LUMAD Design Tokens
+ * Source: Stitch project 11954323213655198105
+ * All hex values from designTheme.namedColors — zero guesses.
+ * Font stack: overridden per spec (Syne / DM Sans / Space Mono)
+ * Roundness: ROUND_FULL from Stitch
+ * Spacing scale: 2 from Stitch
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  /* ─── FONTS (override — canonical per spec) ─────────────────────────── */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'Space Mono', monospace;
+
+  /* ─── COLORS — from Stitch designTheme.namedColors ──────────────────── */
+
+  /* Background / Surface base */
+  --color-background:               #131318;
+  --color-surface:                  #131318;
+  --color-surface-dim:              #131318;
+
+  /* Surface container tiers (elevation levels) */
+  --color-surface-container-lowest: #0e0e13;
+  --color-surface-container-low:    #1b1b20;
+  --color-surface-container:        #1f1f25;
+  --color-surface-container-high:   #2a292f;
+  --color-surface-container-highest:#35343a;
+  --color-surface-bright:           #39383e;
+  --color-surface-variant:          #35343a;
+
+  /* Primary — Amber glow (human actions / CTAs) */
+  --color-primary:                  #ffc880;
+  --color-primary-container:        #f5a623;
+  --color-primary-fixed:            #ffddb4;
+  --color-primary-fixed-dim:        #ffb955;
+  --color-on-primary:               #452b00;
+  --color-on-primary-container:     #644000;
+  --color-inverse-primary:          #835500;
+  --color-surface-tint:             #ffb955;
+
+  /* Secondary — Cyan (machine data / intelligence) */
+  --color-secondary:                #a2e7ff;
+  --color-secondary-container:      #00d2fd;
+  --color-secondary-fixed:          #b4ebff;
+  --color-secondary-fixed-dim:      #3cd7ff;
+  --color-on-secondary:             #003642;
+  --color-on-secondary-container:   #005669;
+
+  /* Tertiary — Purple (accent) */
+  --color-tertiary:                 #dac9ff;
+  --color-tertiary-container:       #c2a8ff;
+  --color-on-tertiary:              #3c0090;
+  --color-on-tertiary-container:    #5700ca;
+
+  /* On-surface text colors */
+  --color-on-surface:               #e4e1e9;
+  --color-on-surface-variant:       #d7c3ae;
+  --color-inverse-on-surface:       #303036;
+  --color-inverse-surface:          #e4e1e9;
+
+  /* Outline / borders */
+  --color-outline:                  #9f8e7a;
+  --color-outline-variant:          #524534;
+
+  /* Error states */
+  --color-error:                    #ffb4ab;
+  --color-error-container:          #93000a;
+  --color-on-error:                 #690005;
+  --color-on-error-container:       #ffdad6;
+
+  /* Brand doc additional values (from LUMAD Brand & Design Requirements screen) */
+  --color-brand-bg:                 #0A0A0F;      /* Deep near-black from brand doc */
+  --color-brand-primary:            #F5A623;      /* Electric amber/gold */
+  --color-brand-secondary:          #00D4FF;      /* Bright cyan */
+  --color-brand-surface-card:       #13131A;      /* Surface cards */
+  --color-brand-border:             #1E1E2E;      /* Card border */
+  --color-text-primary:             #F0F0F5;      /* Warm white */
+  --color-text-secondary:           #8A8AA0;      /* Muted text */
+  --color-success:                  #00E676;      /* Success green */
+
+  /* ─── TYPOGRAPHY SCALE ───────────────────────────────────────────────── */
+  --text-xs:    0.75rem;    /* 12px */
+  --text-sm:    0.875rem;   /* 14px */
+  --text-base:  1rem;       /* 16px */
+  --text-lg:    1.125rem;   /* 18px */
+  --text-xl:    1.25rem;    /* 20px */
+  --text-2xl:   1.5rem;     /* 24px */
+  --text-3xl:   2rem;       /* 32px — Card headlines */
+  --text-4xl:   3rem;       /* 48px — Section titles */
+  --text-5xl:   4.5rem;     /* 72px — Hero heading min */
+  --text-6xl:   6rem;       /* 96px — Hero heading max */
+
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+  --font-weight-semibold:600;
+  --font-weight-bold:    700;
+  --font-weight-extrabold:800;
+
+  /* ─── SPACING SCALE (spacingScale: 2 from Stitch) ───────────────────── */
+  --space-1:  0.5rem;    /* 8px */
+  --space-2:  1rem;      /* 16px */
+  --space-3:  1.5rem;    /* 24px */
+  --space-4:  2rem;      /* 32px */
+  --space-5:  2.5rem;    /* 40px */
+  --space-6:  3rem;      /* 48px */
+  --space-8:  4rem;      /* 64px */
+  --space-10: 5rem;      /* 80px */
+  --space-12: 6rem;      /* 96px */
+  --space-16: 8rem;      /* 128px */
+  --space-20: 10rem;     /* 160px */
+  --space-24: 12rem;     /* 192px */
+
+  /* ─── BORDER RADIUS (roundness: ROUND_FULL from Stitch) ─────────────── */
+  --radius-sm:   0.5rem;    /* 8px  — small elements */
+  --radius-md:   1rem;      /* 16px — cards */
+  --radius-lg:   1.5rem;    /* 24px — large cards */
+  --radius-xl:   2rem;      /* 32px — modals */
+  --radius-full: 9999px;    /* pills, buttons */
+
+  /* ─── SHADOWS / GLOW (from designMd "Glow Shadows") ────────────────── */
+  --glow-primary:       0 0 24px rgba(255, 185, 85, 0.08);   /* Ambient amber at 8% */
+  --glow-primary-hover: 0 0 32px rgba(245, 166, 35, 0.20);   /* Hover state */
+  --glow-primary-active:0 0 48px rgba(245, 166, 35, 0.35);   /* Active/pressed */
+  --glow-cyan:          0 0 24px rgba(0, 210, 253, 0.10);    /* Cyan data glow */
+  --glow-none:          none;
+
+  /* Glassmorphism values (from designMd) */
+  --glass-blur:         20px;
+  --glass-blur-heavy:   40px;
+  --glass-bg:           rgba(53, 52, 58, 0.40);   /* surface_variant at 40% */
+  --glass-bg-modal:     rgba(57, 56, 62, 0.40);   /* surface_bright at 40% */
+  --glass-border:       rgba(159, 142, 122, 0.15); /* outline at 15% */
+
+  /* ─── ANIMATION TIMING (from designMd "snappy 200ms") ───────────────── */
+  --transition-fast:    200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-medium:  300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:    500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ─── Z-INDEX SCALE ──────────────────────────────────────────────────── */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-dropdown:100;
+  --z-sticky:  200;
+  --z-modal:   300;
+  --z-toast:   400;
+}

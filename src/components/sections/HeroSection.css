@@ -1,0 +1,166 @@
+/* HeroSection Redesign - Massive Left Aligned Typography */
+
+.hero {
+  position: relative;
+  min-height: calc(100svh - 68px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  /* padding-top: 68px; Removed to fix layout overscroll */
+  background: var(--bg-dark);
+}
+
+/* ─── Animated Background ─────── */
+.hero__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150vw; /* Wider than screen for panning */
+  height: 100%;
+  background-image: url('/hero-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.15; /* Subtler for text contrast */
+  z-index: 0;
+  animation: panBg 40s linear infinite alternate;
+}
+
+/* Gradient overlay to fade background into the deep black */
+.hero__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(14, 14, 19, 0.95) 0%, rgba(14, 14, 19, 0.7) 50%, rgba(14, 14, 19, 0.3) 100%);
+  z-index: 0;
+}
+
+@keyframes panBg {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-20vw); }
+}
+
+/* ─── Inner content ─────────────────────────────────────── */
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Left aligned */
+  text-align: left;
+  gap: var(--space-2); /* Tighten overall gap */
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+  max-width: 1200px;
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* ─── Pre-headline badge ────────────────────────────────── */
+.hero__badge-modern {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: 50px;
+  background: rgba(245, 166, 35, 0.08); /* Dark subtle yellow */
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  margin-bottom: var(--space-2); /* Tighten spacing */
+}
+
+.hero__badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f5a623;
+  flex-shrink: 0;
+}
+
+.hero__badge-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #dcb381; /* muted sand/yellow color matching screenshot */
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ─── Main headline ────────────────────── */
+.hero__headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3.5rem, 8.5vw, 6.5rem); /* Scaled down slightly to fit fold perfectly */
+  font-weight: 800;
+  line-height: 0.9; /* Super tight line height for the massive blocky feel */
+  letter-spacing: -0.04em;
+  color: #fff;
+  margin-bottom: var(--space-3); /* Reduced margin */
+  /* The screenshot shows the text stacking tightly */
+  display: flex;
+  flex-direction: column;
+}
+
+.hero__hl-grad1 {
+  background: linear-gradient(90deg, #ffd18c 0%, #f5a623 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero__hl-grad2 {
+  background: linear-gradient(90deg, #f5a623 0%, #d4e0c4 50%, #9ddae8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Sub-headline ──────────────────────────────────────── */
+.hero__sub {
+  font-size: clamp(0.95rem, 1.25vw, 1.1rem);
+  color: #b0afb5;
+  max-width: 60ch;
+  line-height: 1.6;
+  margin-bottom: var(--space-5); /* Tighten spacing above CTAs */
+}
+
+/* ─── CTAs ──────────────────────────────────────────────── */
+.hero__ctas {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* ─── Mobile ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero {
+    /* Removed padding-top here as well to fix sizing */
+    justify-content: center;
+  }
+  .hero__inner {
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+    text-align: center;
+    align-items: center;
+  }
+  .hero__headline {
+    font-size: clamp(3rem, 12vw, 4rem);
+    text-align: center;
+    align-items: center;
+  }
+  .hero__sub {
+    text-align: center;
+    margin-bottom: var(--space-4);
+  }
+  .hero__ctas {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+  .hero__ctas > * {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+}

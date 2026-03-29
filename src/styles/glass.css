@@ -1,0 +1,55 @@
+/* LUMAD Glass Utility Classes */
+/* Based on designMd "Glass & Gradient Architecture" from Stitch */
+
+/* ─── Base glass surface ─────────────────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
+
+/* Heavy blur variant (modals, top-level overlays) */
+.glass-heavy {
+  background: var(--glass-bg-modal);
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+}
+
+/* Card glass (elevated, with subtle glow) */
+.glass-card {
+  background: rgba(42, 41, 47, 0.60);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(159, 142, 122, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glow-primary);
+  transition: box-shadow var(--transition-fast),
+              transform var(--transition-fast);
+}
+.glass-card:hover {
+  box-shadow: var(--glow-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Screen preview frame (billboard edge simulation) */
+.glass-screen-frame {
+  background: rgba(30, 29, 37, 0.80);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 185, 85, 0.30);  /* outline at 30% */
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 32px rgba(245, 166, 35, 0.08),
+              inset 0 1px 0 rgba(255, 200, 128, 0.05);
+}
+
+/* Navbar glass */
+.glass-nav {
+  background: rgba(19, 19, 24, 0.80);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(82, 69, 52, 0.40);
+}

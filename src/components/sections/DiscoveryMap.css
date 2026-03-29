@@ -1,0 +1,109 @@
+/* DiscoveryMap CSS */
+.discovery-map-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* keep behind nav */
+}
+
+.discovery-map {
+  width: 100%;
+  height: 100%;
+}
+
+/* Base override for leaflet dark styles in case some map artifacts show */
+.leaflet-container {
+  background: var(--color-background);
+  font-family: var(--font-body);
+}
+
+/* ─── Custom Amber Pin ─────────────────────────────────────────────────── */
+.custom-leaflet-icon {
+  background: transparent;
+  border: none;
+}
+
+.map-pin {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(245, 166, 35, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(245, 166, 35, 0.3);
+  transition: transform var(--transition-medium);
+  cursor: pointer;
+}
+
+.map-pin__core {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 5px var(--color-primary);
+}
+
+/* Active / hovered pin styling */
+.map-pin:hover {
+  transform: scale(1.3);
+  background: rgba(245, 166, 35, 0.4);
+}
+
+.map-pin--active {
+  transform: scale(1.5);
+  background: rgba(245, 166, 35, 0.4);
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.8);
+  z-index: 999;
+}
+.map-pin--active .map-pin__core {
+  background: #ffffff;
+}
+
+/* ─── Stitch-styled Popup ──────────────────────────────────────────────── */
+.leaflet-popup.lumad-popup {
+  margin-bottom: 24px;
+}
+.leaflet-popup-content-wrapper {
+  background: rgba(19, 19, 24, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(159, 142, 122, 0.2) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-xl) !important;
+  padding: 0 !important;
+  color: var(--color-on-surface) !important;
+}
+.leaflet-popup-content {
+  margin: 0 !important;
+  padding: var(--space-3) !important;
+  min-width: 200px;
+}
+.leaflet-popup-tip-container {
+  display: none; /* Hide default leaflet tail */
+}
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--color-on-surface-variant);
+  top: 10px;
+  right: 10px;
+}
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: var(--color-primary);
+}
+
+.popup-title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  margin: 0 0 var(--space-1) 0;
+}
+.popup-meta {
+  font-size: var(--text-xs);
+  color: var(--color-on-surface-variant);
+  margin: 0 0 var(--space-3) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.popup-price {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin: 0 0 var(--space-3) 0;
+}

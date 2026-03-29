@@ -1,0 +1,68 @@
+/* GlassCard — Stitch designMd glassmorphism spec */
+
+.glass-card-comp {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+
+  /* Base glass effect */
+  background: rgba(42, 41, 47, 0.60);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  /* Ghost border — "felt, not seen" per Stitch designMd */
+  border: 1px solid rgba(159, 142, 122, 0.12);
+}
+
+/* ─── Variant: heavy (modals, overlays) ──────── */
+.glass-card-comp--heavy {
+  background: rgba(57, 56, 62, 0.40);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-radius: var(--radius-xl);
+}
+
+/* ─── Variant: screen frame (billboard preview) ─ */
+.glass-card-comp--screen {
+  background: rgba(30, 29, 37, 0.80);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 185, 85, 0.30);
+  border-radius: var(--radius-md);
+}
+
+/* ─── Hover lift effect ──────────────────────── */
+.glass-card-comp--hover {
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+.glass-card-comp--hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--glow-primary-hover);
+}
+
+/* ─── Glow (ambient primary at 8%) ───────────── */
+.glass-card-comp--glow {
+  box-shadow: var(--glow-primary);
+}
+.glass-card-comp--glow:hover {
+  box-shadow: var(--glow-primary-hover);
+}
+
+/* ─── Padding variants ───────────────────────── */
+.glass-card-comp--pad-none { padding: 0; }
+.glass-card-comp--pad-sm   { padding: var(--space-2); }
+.glass-card-comp--pad-md   { padding: var(--space-3); }
+.glass-card-comp--pad-lg   { padding: var(--space-4); }
+
+/* ─── Mobile ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .glass-card-comp--pad-lg {
+    padding: var(--space-3);
+  }
+  .glass-card-comp--pad-md {
+    padding: var(--space-2);
+  }
+}

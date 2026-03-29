@@ -1,0 +1,15 @@
+/* AudienceTag */
+.audience-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  background: rgba(60, 215, 255, 0.08);
+  color: var(--color-secondary-fixed-dim);
+  border: 1px solid rgba(60, 215, 255, 0.15);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
