@@ -1,0 +1,285 @@
+/* ═══ Owner Booking Queue ═══ */
+
+.booking-queue {
+  max-width: 960px;
+}
+
+.bq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-6);
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.bq-title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  color: var(--color-on-surface);
+  margin-bottom: 0.25rem;
+}
+
+.bq-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.bq-counters {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.bq-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-surface-container-high);
+  border-radius: var(--radius-md);
+  min-width: 80px;
+}
+
+.bq-counter-value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+}
+
+.bq-counter-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  margin-top: 0.15rem;
+}
+
+/* ── Filters ── */
+.bq-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.bq-filter-btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bq-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-on-surface);
+}
+
+.bq-filter-btn.active {
+  background: rgba(255, 185, 85, 0.12);
+  border-color: rgba(255, 185, 85, 0.2);
+  color: var(--color-primary);
+}
+
+.bq-filter-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-full);
+}
+
+/* ── Queue Cards ── */
+.bq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bq-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: var(--color-surface-container-high);
+  border-radius: var(--radius-md);
+  gap: var(--space-4);
+  animation: cardSlideIn 0.4s ease both;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.bq-card:hover {
+  background: var(--color-surface-container-highest);
+  transform: translateX(4px);
+}
+
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.bq-card-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.bq-card-screen {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-on-surface);
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bq-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.bq-card-loc {
+  opacity: 0.7;
+}
+
+.bq-card-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.bq-card-price {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+
+.bq-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.bq-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Empty & Loading ── */
+.bq-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+}
+
+.bq-empty-icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-3);
+  animation: emptyBounce 2s ease-in-out infinite;
+}
+
+@keyframes emptyBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+.bq-empty h3 {
+  font-family: var(--font-display);
+  color: var(--color-on-surface);
+  margin-bottom: 0.5rem;
+}
+
+.bq-empty p {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  max-width: 400px;
+}
+
+.bq-loading {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.bq-loading-bar {
+  width: 120px;
+  height: 3px;
+  background: var(--color-surface-container-highest);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.bq-loading-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: loadSlide 1.2s ease-in-out infinite;
+}
+
+@keyframes loadSlide {
+  0%   { left: -40%; }
+  100% { left: 100%; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .bq-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .bq-card-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .bq-header {
+    flex-direction: column;
+  }
+}

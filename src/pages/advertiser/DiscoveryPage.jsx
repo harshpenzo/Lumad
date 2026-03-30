@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useMapData } from '../../hooks/useMapData'
 import DiscoveryMap from '../../components/sections/DiscoveryMap'
 import ScreenCard from '../../components/ui/ScreenCard'
@@ -14,6 +15,7 @@ export default function DiscoveryPage() {
     selectedScreenId,
     setSelectedScreenId
   } = useMapData()
+  const navigate = useNavigate()
 
   // Make sure to scroll to top on load since we are in router
   useEffect(() => {
@@ -90,7 +92,7 @@ export default function DiscoveryPage() {
                   variant="list"
                   selected={selectedScreenId === screen.id}
                   onSelect={(s) => setSelectedScreenId(s.id)}
-                  onBook={(s) => window.location.href = `/book/${s.id}`}
+                  onBook={(s) => navigate(`/advertiser/book/${s.id}`)}
                 />
               </div>
             ))

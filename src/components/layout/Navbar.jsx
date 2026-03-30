@@ -87,12 +87,12 @@ export default function Navbar() {
           {user ? (
             <>
               <GhostButton onClick={() => { logout(); navigate('/') }} size="sm">Log out</GhostButton>
-              <AmberButton href={user.role === 'owner' ? '/owner' : '/dashboard'} size="sm">Dashboard</AmberButton>
+              <AmberButton href={user.role === 'owner' ? '/owner' : '/advertiser/dashboard'} size="sm">Dashboard</AmberButton>
             </>
           ) : (
             <>
               <GhostButton href="/login" size="sm">Log in</GhostButton>
-              <AmberButton href="/discover" size="sm">Start Advertising</AmberButton>
+              <AmberButton href="/advertiser/discover" size="sm">Start Advertising</AmberButton>
             </>
           )}
         </div>
@@ -143,12 +143,12 @@ export default function Navbar() {
           {user ? (
             <>
               <GhostButton onClick={() => { logout(); navigate('/'); setMenuOpen(false) }} size="md" fullWidth>Log out</GhostButton>
-              <AmberButton href={user.role === 'owner' ? '/owner' : '/dashboard'} size="md" fullWidth>Dashboard</AmberButton>
+              <AmberButton href={user.role === 'owner' ? '/owner' : '/advertiser/dashboard'} size="md" fullWidth>Dashboard</AmberButton>
             </>
           ) : (
             <>
               <GhostButton href="/login" size="md" fullWidth>Log in</GhostButton>
-              <AmberButton href="/discover" size="md" fullWidth>Start Advertising</AmberButton>
+              <AmberButton href="/advertiser/discover" size="md" fullWidth>Start Advertising</AmberButton>
             </>
           )}
         </div>

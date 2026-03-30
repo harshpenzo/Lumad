@@ -3,26 +3,38 @@ import { useEffect } from 'react'
 import { BookingProvider } from './context/BookingContext'
 import { AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext'
+
+/* ── Layout Components ──────────────────────────────────────────────────── */
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+import OwnerLayout from './components/layout/OwnerLayout'
+import AdvertiserLayout from './components/layout/AdvertiserLayout'
+
+/* ── Public Pages ───────────────────────────────────────────────────────── */
 import HomePage from './pages/public/HomePage'
-import DiscoveryPage from './pages/advertiser/DiscoveryPage'
 import AboutPage from './pages/public/AboutPage'
-import BookingPage from './pages/advertiser/BookingPage'
-import LoginPage from './pages/auth/LoginPage'
-import RegisterPage from './pages/auth/RegisterPage'
-import DashboardPage from './pages/advertiser/DashboardPage'
+import FeaturesPage from './pages/public/FeaturesPage'
+import PricingPage from './pages/public/PricingPage'
 import NotFoundPage from './pages/public/NotFoundPage'
 import TermsPage from './pages/public/TermsPage'
 import PrivacyPage from './pages/public/PrivacyPage'
 import CookiePage from './pages/public/CookiePage'
 
-import OwnerLayout from './components/layout/OwnerLayout'
+/* ── Auth Pages ─────────────────────────────────────────────────────────── */
+import LoginPage from './pages/auth/LoginPage'
+import RegisterPage from './pages/auth/RegisterPage'
+
+/* ── Owner Portal Pages ─────────────────────────────────────────────────── */
 import OwnerDashboardPage from './pages/owner/OwnerDashboardPage'
 import OwnerInventoryPage from './pages/owner/OwnerInventoryPage'
+import OwnerBookingQueuePage from './pages/owner/OwnerBookingQueuePage'
+import OwnerEarningsPage from './pages/owner/OwnerEarningsPage'
 
-import FeaturesPage from './pages/public/FeaturesPage'
-import PricingPage from './pages/public/PricingPage'
+/* ── Advertiser Portal Pages ────────────────────────────────────────────── */
+import DashboardPage from './pages/advertiser/DashboardPage'
+import DiscoveryPage from './pages/advertiser/DiscoveryPage'
+import CampaignsPage from './pages/advertiser/CampaignsPage'
+import BookingPage from './pages/advertiser/BookingPage'
 
 /**
  * ScrollToTop — resets window scroll to top on every route change.
@@ -48,7 +60,7 @@ function ProtectedRoute({ children }) {
 }
 
 /**
- * StandardLayout — wraps public / advertiser pages with Navbar + Footer.
+ * StandardLayout — wraps public / unauthenticated pages with Navbar + Footer.
  */
 function StandardLayout({ children }) {
   return (
@@ -67,7 +79,9 @@ export default function App() {
         <BookingProvider>
           <ScrollToTop />
           <Routes>
-            {/* ── Owner Portal (Dedicated Sidebar Layout) ── */}
+            {/* ═══════════════════════════════════════════════════════════
+                OWNER PORTAL — Sidebar layout, role-gated
+               ═══════════════════════════════════════════════════════════ */}
             <Route
               path="/owner"
               element={
@@ -79,9 +93,32 @@ export default function App() {
               <Route index element={<OwnerDashboardPage />} />
               <Route path="dashboard" element={<OwnerDashboardPage />} />
               <Route path="inventory" element={<OwnerInventoryPage />} />
+              <Route path="bookings" element={<OwnerBookingQueuePage />} />
+              <Route path="earnings" element={<OwnerEarningsPage />} />
             </Route>
 
-            {/* ── Public Pages ── */}
+            {/* ═══════════════════════════════════════════════════════════
+                ADVERTISER PORTAL — Sidebar layout, role-gated
+               ═══════════════════════════════════════════════════════════ */}
+            <Route
+              path="/advertiser"
+              element={
+                <ProtectedRoute>
+                  <AdvertiserLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<DashboardPage />} />
+              <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="discover" element={<DiscoveryPage />} />
+              <Route path="campaigns" element={<CampaignsPage />} />
+              <Route path="book" element={<DiscoveryPage />} />
+              <Route path="book/:screenId" element={<BookingPage />} />
+            </Route>
+
+            {/* ═══════════════════════════════════════════════════════════
+                PUBLIC PAGES — Standard Navbar + Footer
+               ═══════════════════════════════════════════════════════════ */}
             <Route path="/" element={<StandardLayout><HomePage /></StandardLayout>} />
             <Route path="/about" element={<StandardLayout><AboutPage /></StandardLayout>} />
             <Route path="/features" element={<StandardLayout><FeaturesPage /></StandardLayout>} />
@@ -96,27 +133,10 @@ export default function App() {
             <Route path="/login" element={<StandardLayout><LoginPage /></StandardLayout>} />
             <Route path="/register" element={<StandardLayout><RegisterPage /></StandardLayout>} />
 
-            {/* ── Advertiser Pages ── */}
-            <Route
-              path="/discover"
-              element={<StandardLayout><DiscoveryPage /></StandardLayout>}
-            />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <StandardLayout><DashboardPage /></StandardLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/book/:screenId"
-              element={
-                <ProtectedRoute>
-                  <StandardLayout><BookingPage /></StandardLayout>
-                </ProtectedRoute>
-              }
-            />
+            {/* ── Legacy Redirects (old flat routes → new portal routes) ── */}
+            <Route path="/discover" element={<Navigate to="/advertiser/discover" replace />} />
+            <Route path="/dashboard" element={<Navigate to="/advertiser/dashboard" replace />} />
+            <Route path="/book/:screenId" element={<Navigate to="/advertiser/book/:screenId" replace />} />
 
             {/* ── 404 Catch-All ── */}
             <Route path="*" element={<NotFoundPage />} />

@@ -52,7 +52,7 @@ export default function DashboardPage() {
           <p className="dashboard-subtitle">Here's an overview of your advertising campaigns.</p>
         </div>
         <div className="dashboard-actions">
-          <Link to="/discover" className="dashboard-btn-primary">New Campaign</Link>
+          <Link to="/advertiser/discover" className="dashboard-btn-primary">New Campaign</Link>
         </div>
       </div>
 
@@ -82,7 +82,7 @@ export default function DashboardPage() {
           ) : campaigns.length === 0 ? (
             <div className="empty-state">
               <p>You haven't booked any campaigns yet.</p>
-              <Link to="/discover" className="dashboard-btn-primary">Explore Screens →</Link>
+              <Link to="/advertiser/discover" className="dashboard-btn-primary">Explore Screens →</Link>
             </div>
           ) : (
             <div className="campaign-list">
