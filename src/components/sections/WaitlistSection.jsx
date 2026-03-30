@@ -1,26 +1,90 @@
 import { useState } from 'react'
 import './WaitlistSection.css'
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xaqlonnw'
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PHONE_RE = /^\d{10}$/
+
 /**
  * WaitlistSection
- * Matches Stitch "Join Waitlist" screen:
  * Left: headline + benefits + testimonial
  * Right: role-toggle form (Advertiser / Screen Owner)
+ * Submits to Formspree. Shows inline validation errors and success state.
  */
 export default function WaitlistSection() {
   const [role, setRole] = useState('advertiser')
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+
   const [form, setForm] = useState({
     name: '', business: '', city: '', budget: '', email: '', phone: ''
   })
+  const [errors, setErrors] = useState({})
 
   function handleChange(e) {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm(f => ({ ...f, [name]: value }))
+    // Clear error on change
+    if (errors[name]) setErrors(e => ({ ...e, [name]: '' }))
   }
 
-  function handleSubmit(e) {
+  function validate() {
+    const newErrors = {}
+    if (!form.name.trim()) newErrors.name = 'Full name is required.'
+    if (!form.business.trim()) newErrors.business = 'This field is required.'
+    if (!form.city.trim()) newErrors.city = 'City is required.'
+    if (role === 'advertiser' && !form.budget) newErrors.budget = 'Please select a budget.'
+    if (!form.email.trim()) {
+      newErrors.email = 'Email is required.'
+    } else if (!EMAIL_RE.test(form.email)) {
+      newErrors.email = 'Enter a valid email address.'
+    }
+    if (!form.phone.trim()) {
+      newErrors.phone = 'Phone is required.'
+    } else if (!PHONE_RE.test(form.phone.replace(/\D/g, ''))) {
+      newErrors.phone = 'Enter a valid 10-digit phone number.'
+    }
+    return newErrors
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault()
-    setSubmitted(true)
+    setSubmitError('')
+
+    const validationErrors = validate()
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role,
+          fullName: form.name,
+          businessName: form.business,
+          city: form.city,
+          budget: form.budget || 'N/A',
+          email: form.email,
+          phone: form.phone,
+        }),
+      })
+      if (res.ok) {
+        setSubmitted(true)
+      } else {
+        const data = await res.json()
+        setSubmitError(data?.errors?.[0]?.message || 'Submission failed. Please try again.')
+      }
+    } catch {
+      setSubmitError('Network error. Please check your connection and try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -68,9 +132,18 @@ export default function WaitlistSection() {
         <div className="waitlist__right">
           {submitted ? (
             <div className="waitlist__success">
-              <div className="waitlist__success-icon">✓</div>
+              <div className="waitlist__success-icon">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <circle cx="20" cy="20" r="20" fill="#F5A623" fillOpacity="0.15" />
+                  <path d="M12 20.5L17.5 26L28 14" stroke="#F5A623" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
               <h3>You're on the list!</h3>
-              <p>We'll reach out within 48 hours. Welcome to the Lumad beta.</p>
+              <p>
+                We'll reach out to you at{' '}
+                <strong className="waitlist__success-email">{form.email}</strong>{' '}
+                as soon as we launch in your city.
+              </p>
             </div>
           ) : (
             <form className="waitlist__form" onSubmit={handleSubmit} noValidate>
@@ -98,12 +171,12 @@ export default function WaitlistSection() {
                   id="wl-name"
                   name="name"
                   type="text"
-                  className="waitlist__input"
+                  className={`waitlist__input ${errors.name ? 'waitlist__input--error' : ''}`}
                   placeholder="Aarav Sharma"
                   value={form.name}
                   onChange={handleChange}
-                  required
                 />
+                {errors.name && <span className="waitlist__error">{errors.name}</span>}
               </div>
 
               <div className="waitlist__row">
@@ -115,11 +188,12 @@ export default function WaitlistSection() {
                     id="wl-business"
                     name="business"
                     type="text"
-                    className="waitlist__input"
+                    className={`waitlist__input ${errors.business ? 'waitlist__input--error' : ''}`}
                     placeholder="Elevate Studios"
                     value={form.business}
                     onChange={handleChange}
                   />
+                  {errors.business && <span className="waitlist__error">{errors.business}</span>}
                 </div>
                 <div className="waitlist__field">
                   <label className="waitlist__label mono" htmlFor="wl-city">CITY</label>
@@ -127,11 +201,12 @@ export default function WaitlistSection() {
                     id="wl-city"
                     name="city"
                     type="text"
-                    className="waitlist__input"
+                    className={`waitlist__input ${errors.city ? 'waitlist__input--error' : ''}`}
                     placeholder="Mumbai"
                     value={form.city}
                     onChange={handleChange}
                   />
+                  {errors.city && <span className="waitlist__error">{errors.city}</span>}
                 </div>
               </div>
 
@@ -141,16 +216,17 @@ export default function WaitlistSection() {
                   <select
                     id="wl-budget"
                     name="budget"
-                    className="waitlist__input waitlist__select"
+                    className={`waitlist__input waitlist__select ${errors.budget ? 'waitlist__input--error' : ''}`}
                     value={form.budget}
                     onChange={handleChange}
                   >
-                    <option value="">₹50,000 – ₹1,00,000</option>
+                    <option value="">Select budget range</option>
                     <option value="under50k">Under ₹50,000</option>
                     <option value="50k-1l">₹50,000 – ₹1,00,000</option>
                     <option value="1l-5l">₹1,00,000 – ₹5,00,000</option>
                     <option value="above5l">Above ₹5,00,000</option>
                   </select>
+                  {errors.budget && <span className="waitlist__error">{errors.budget}</span>}
                 </div>
               )}
 
@@ -161,12 +237,12 @@ export default function WaitlistSection() {
                     id="wl-email"
                     name="email"
                     type="email"
-                    className="waitlist__input"
+                    className={`waitlist__input ${errors.email ? 'waitlist__input--error' : ''}`}
                     placeholder="aarav@elevate.in"
                     value={form.email}
                     onChange={handleChange}
-                    required
                   />
+                  {errors.email && <span className="waitlist__error">{errors.email}</span>}
                 </div>
                 <div className="waitlist__field">
                   <label className="waitlist__label mono" htmlFor="wl-phone">PHONE</label>
@@ -174,16 +250,30 @@ export default function WaitlistSection() {
                     id="wl-phone"
                     name="phone"
                     type="tel"
-                    className="waitlist__input"
-                    placeholder="+91 98765 43210"
+                    className={`waitlist__input ${errors.phone ? 'waitlist__input--error' : ''}`}
+                    placeholder="98765 43210"
                     value={form.phone}
                     onChange={handleChange}
                   />
+                  {errors.phone && <span className="waitlist__error">{errors.phone}</span>}
                 </div>
               </div>
 
-              <button type="submit" className="waitlist__submit">
-                JOIN THE WAITLIST
+              {submitError && (
+                <div className="waitlist__submit-error" role="alert">{submitError}</div>
+              )}
+
+              <button
+                type="submit"
+                className={`waitlist__submit ${submitting ? 'waitlist__submit--loading' : ''}`}
+                disabled={submitting}
+              >
+                {submitting ? (
+                  <>
+                    <span className="waitlist__spinner" aria-hidden="true" />
+                    SUBMITTING...
+                  </>
+                ) : 'JOIN THE WAITLIST'}
               </button>
 
               <div className="waitlist__social-proof">

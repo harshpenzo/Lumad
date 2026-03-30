@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /owner/
+Disallow: /owner/dashboard
+Disallow: /owner/inventory
+Sitemap: https://lumad-five.vercel.app/sitemap.xml

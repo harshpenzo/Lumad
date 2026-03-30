@@ -330,6 +330,62 @@
   max-width: 35ch;
 }
 
+/* ─── Validation & Submission States ─────────────────── */
+.waitlist__input--error {
+  border-color: #ff5a5a !important;
+}
+
+.waitlist__error {
+  color: #ff5a5a;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
+
+.waitlist__submit-error {
+  padding: 0.7rem 1rem;
+  background: rgba(255, 90, 90, 0.1);
+  border: 1px solid rgba(255, 90, 90, 0.3);
+  border-radius: var(--radius-md);
+  color: #ff7a7a;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.waitlist__submit--loading {
+  opacity: 0.75;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.waitlist__submit:disabled {
+  pointer-events: none;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.waitlist__spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.waitlist__success-email {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
 /* ─── Mobile ─────────────────────────────────────────── */
 @media (max-width: 900px) {
   .waitlist__inner {
