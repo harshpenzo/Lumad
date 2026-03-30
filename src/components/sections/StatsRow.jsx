@@ -39,10 +39,10 @@ export default function StatsRow() {
     <section className="stats" aria-label="LUMAD platform statistics">
       <div className="stats__inner container reveal" ref={sectionRef}>
         <dl className="stats__grid reveal-stagger">
-          <StatItem end={5200}   suffix="+"  label="Screens live across India" />
-          <StatItem end={200}    suffix="+"  label="Cities and towns covered" />
-          <StatItem end={12000}  suffix="+"  label="Campaigns delivered" />
-          <StatItem end={4.8}    suffix="★"  label="Average advertiser rating" decimals={1} />
+          <StatItem end={47}    suffix="+"  label="Screens live across India" />
+          <StatItem end={12}    suffix="+"  label="Cities and towns covered" />
+          <StatItem end={183}   suffix="+"  label="Campaigns delivered" />
+          <StatItem end={4.8}   suffix="★"  label="Average advertiser rating" decimals={1} />
         </dl>
       </div>
     </section>

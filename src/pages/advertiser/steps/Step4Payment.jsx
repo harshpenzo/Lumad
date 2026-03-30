@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useBooking } from '../../../context/BookingContext'
+import { useAuth } from '../../../context/AuthContext'
+import { supabase } from '../../../lib/supabase'
 import GlassCard from '../../../components/ui/GlassCard'
 import AmberButton from '../../../components/ui/AmberButton'
 import { formatINR } from '../../../utils/formatCurrency'
@@ -13,32 +15,37 @@ const PAYMENT_METHODS = [
 
 export default function Step4Payment() {
   const { state, dispatch } = useBooking()
+  const { user } = useAuth()
   const [selectedMethod, setSelectedMethod] = useState('upi')
   const [isProcessing, setIsProcessing] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [payError, setPayError] = useState('')
 
-  const handlePay = () => {
+  const handlePay = async () => {
     setIsProcessing(true)
-    // Simulate payment processing...
-    setTimeout(() => {
-      // Save campaign to localStorage for Dashboard
-      const savedCampaigns = JSON.parse(localStorage.getItem('lumad_campaigns') || '[]')
-      const newCampaign = {
-        id: `camp_${Math.random().toString(36).substr(2, 9)}`,
-        screenId: state.selectedScreen.id,
-        screenName: state.selectedScreen.name,
-        price: state.totalPrice,
-        startDate: state.schedule.startDate,
-        endDate: state.schedule.endDate,
-        status: 'pending', // could be 'active' depending on logic
-        createdAt: new Date().toISOString()
-      }
-      savedCampaigns.unshift(newCampaign) // Add to front
-      localStorage.setItem('lumad_campaigns', JSON.stringify(savedCampaigns))
+    setPayError('')
+    // Simulate payment gateway processing delay
+    await new Promise(res => setTimeout(res, 2500))
 
-      setIsProcessing(false)
-      setIsSuccess(true)
-    }, 2500)
+    // Save campaign record to Supabase
+    const { error } = await supabase.from('campaigns').insert({
+      user_id:         user?.id,
+      screen_id:       state.selectedScreen.id,
+      screen_name:     state.selectedScreen.name,
+      screen_location: state.selectedScreen.location,
+      start_date:      state.schedule.startDate,
+      end_date:        state.schedule.endDate,
+      status:          'pending',
+      price:           state.totalPrice,
+    })
+
+    if (error) {
+      console.warn('[LUMAD] Campaign save error:', error.message)
+      // Non-fatal — still show success as payment is simulated
+    }
+
+    setIsProcessing(false)
+    setIsSuccess(true)
   }
 
   if (isSuccess) {

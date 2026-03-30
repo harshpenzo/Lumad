@@ -43,7 +43,7 @@ export default function RegisterPage() {
         navigate('/owner')
       }
     } catch (err) {
-      setError('Failed to create an account. Please try again.')
+      setError(err.message || 'Failed to create an account. Please try again.')
     } finally {
       setIsSubmitting(false)
     }

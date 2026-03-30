@@ -1,75 +1,90 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { supabase } from '../lib/supabase'
 
-const AuthContext = createContext()
+const AuthContext = createContext(null)
 
+/**
+ * AuthProvider — wraps the app and exposes auth state + helpers.
+ * Uses Supabase Auth; user metadata stores `full_name` and `role`.
+ */
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
+  const [user, setUser]         = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Load user from localStorage on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem('lumad_user')
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
-    }
-    setIsLoading(false)
+    // Hydrate from existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(normalise(session?.user ?? null))
+      setIsLoading(false)
+    })
+
+    // Keep in sync with Supabase session changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(normalise(session?.user ?? null))
+      setIsLoading(false)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
-  const login = async (email, password) => {
-    // Simulated API call delay
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
-    // For demo purposes, any login is considered successful
-    // We create a mock user object based on the email
-    const role = email.includes('owner') ? 'owner' : 'advertiser'
-    
-    const loggedInUser = {
-      id: `u_${Math.random().toString(36).substr(2, 9)}`,
-      email,
-      name: email.split('@')[0],
-      role,
-      token: 'mock_jwt_token_123'
+  /** Map Supabase user → component-friendly shape (same API as before) */
+  function normalise(supabaseUser) {
+    if (!supabaseUser) return null
+    return {
+      ...supabaseUser,
+      id:    supabaseUser.id,
+      email: supabaseUser.email,
+      name:  supabaseUser.user_metadata?.full_name
+              || supabaseUser.email?.split('@')[0]
+              || 'User',
+      role:  supabaseUser.user_metadata?.role || 'advertiser',
     }
-
-    localStorage.setItem('lumad_user', JSON.stringify(loggedInUser))
-    setUser(loggedInUser)
-    return loggedInUser
   }
 
-  const register = async (name, email, password, role) => {
-    // Simulated API call delay
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
-    const newUser = {
-      id: `u_${Math.random().toString(36).substr(2, 9)}`,
-      name,
-      email,
-      role, // 'advertiser' or 'owner'
-      token: 'mock_jwt_token_456'
-    }
-
-    localStorage.setItem('lumad_user', JSON.stringify(newUser))
-    setUser(newUser)
-    return newUser
+  async function login(email, password) {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) throw error
+    return data
   }
 
-  const logout = () => {
-    localStorage.removeItem('lumad_user')
-    setUser(null)
+  async function register(name, email, password, role) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: name, role },
+        // emailRedirectTo is only needed if email confirmation is ON
+      },
+    })
+    if (error) throw error
+    return data
+  }
+
+  async function logout() {
+    const { error } = await supabase.auth.signOut()
+    if (error) throw error
+  }
+
+  async function forgotPassword(email) {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    })
+    if (error) throw error
   }
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, register, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{
+      user, isLoading,
+      login, register, logout, forgotPassword,
+      isAuthenticated: !!user,
+    }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return context
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider')
+  return ctx
 }

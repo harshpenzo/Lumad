@@ -1,71 +1,41 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import { supabase } from '../../lib/supabase'
 import { formatINR } from '../../utils/formatCurrency'
 import './OwnerDashboardPage.css'
 
-// Mock campaigns specifically generated for the owner dashboard
-const MOCK_OWNER_CAMPAIGNS = [
-  {
-    id: 'camp_89a7sd8',
-    screenName: 'Times Square Central',
-    buyerName: 'Acme Corp',
-    startDate: '2026-03-25T00:00:00Z',
-    endDate: '2026-04-10T00:00:00Z',
-    status: 'active',
-    revenue: 450000,
-  },
-  {
-    id: 'camp_12h4kh2',
-    screenName: 'Cyberhub Main Entrance',
-    buyerName: 'Globex Inc',
-    startDate: '2026-04-01T00:00:00Z',
-    endDate: '2026-04-30T00:00:00Z',
-    status: 'pending',
-    revenue: 820000,
-  },
-  {
-    id: 'camp_56n2bm1',
-    screenName: 'Bandra Linking Road Highway',
-    buyerName: 'Stark Industries',
-    startDate: '2026-02-15T00:00:00Z',
-    endDate: '2026-03-01T00:00:00Z',
-    status: 'completed',
-    revenue: 210000,
-  }
-]
-
 export default function OwnerDashboardPage() {
   const { user } = useAuth()
+  const [listings, setListings]   = useState([])
   const [campaigns, setCampaigns] = useState([])
-
-  useEffect(() => {
-    // In a real app we'd fetch campaigns filtered by ownerId
-    // For the mock, we blend the hardcoded mock data with whatever is in localStorage
-    const savedCampaigns = JSON.parse(localStorage.getItem('lumad_campaigns') || '[]')
-    
-    // Convert localStorage campaigns to look like owner perspective campaigns
-    const userBooked = savedCampaigns.map(c => ({
-      ...c,
-      buyerName: 'Self-Booked (Demo)', // Because the same user booked it locally
-      revenue: c.price // to owner it's revenue
-    }))
-
-    setCampaigns([...userBooked, ...MOCK_OWNER_CAMPAIGNS])
-  }, [])
+  const [loading, setLoading]     = useState(true)
 
   useEffect(() => {
     document.title = 'Owner Dashboard — LUMAD';
     return () => { document.title = 'LUMAD'; };
-  }, [])
+  }, []);
 
-  // Calculate mock metrics
+  useEffect(() => {
+    if (!user) return
+    setLoading(true)
+
+    Promise.all([
+      supabase.from('screen_listings').select('*').eq('owner_id', user.id),
+      supabase.from('campaigns').select('*').eq('user_id', user.id)
+    ]).then(([{ data: listData }, { data: campData }]) => {
+      setListings(listData || [])
+      setCampaigns(campData || [])
+      setLoading(false)
+    })
+  }, [user])
+
   const totalRevenue = campaigns
-    .filter(c => c.status === 'completed' || c.status === 'active')
-    .reduce((sum, camp) => sum + camp.revenue, 0)
-    
+    .filter(c => c.status === 'active' || c.status === 'completed')
+    .reduce((sum, c) => sum + (c.price || 0), 0)
+
   const pendingPayouts = campaigns
     .filter(c => c.status === 'pending')
-    .reduce((sum, camp) => sum + camp.revenue, 0)
+    .reduce((sum, c) => sum + (c.price || 0), 0)
 
   const activeCount = campaigns.filter(c => c.status === 'active').length
 
@@ -83,72 +53,58 @@ export default function OwnerDashboardPage() {
             <div className="metric-icon">💰</div>
           </div>
           <div className="metric-value">{formatINR(totalRevenue)}</div>
-          <div className="metric-trend trend-up">
-            ↑ 12% vs last month
-          </div>
+          <div className="metric-trend trend-up">From active campaigns</div>
         </div>
-
         <div className="metric-card-owner">
           <div className="metric-header">
             <span className="metric-label">Pending Payouts</span>
             <div className="metric-icon">⏳</div>
           </div>
           <div className="metric-value">{formatINR(pendingPayouts)}</div>
-          <div className="metric-trend">
-            Clears in 3-5 business days
-          </div>
+          <div className="metric-trend">Clears in 3–5 business days</div>
         </div>
-
         <div className="metric-card-owner">
           <div className="metric-header">
-            <span className="metric-label">Active Campaigns</span>
+            <span className="metric-label">My Screens</span>
             <div className="metric-icon">📺</div>
           </div>
-          <div className="metric-value">{activeCount}</div>
-          <div className="metric-trend trend-up">
-            ↑ 2 from last week
-          </div>
+          <div className="metric-value">{listings.length}</div>
+          <div className="metric-trend">{activeCount} actively booking</div>
         </div>
       </section>
 
       <section className="recent-campaigns">
-        <h2 className="section-title">Recent Network Activity</h2>
+        <h2 className="section-title">Recent Bookings</h2>
         <div className="table-wrapper">
-          <table className="campaign-table">
-            <thead>
-              <tr>
-                <th>Screen</th>
-                <th>Dates</th>
-                <th>Status</th>
-                <th>Revenue</th>
-              </tr>
-            </thead>
-            <tbody>
-              {campaigns.map(camp => (
-                <tr key={camp.id}>
-                  <td>
-                    <div className="campaign-screen-name">{camp.screenName}</div>
-                    <div className="campaign-brand">Booked by: {camp.buyerName}</div>
-                  </td>
-                  <td>
-                    {new Date(camp.startDate).toLocaleDateString()} - {new Date(camp.endDate).toLocaleDateString()}
-                  </td>
-                  <td>
-                    <span className={`campaign-status status-${camp.status}`}>
-                      {camp.status}
-                    </span>
-                  </td>
-                  <td className="revenue">
-                    {formatINR(camp.revenue)}
-                  </td>
+          {loading ? (
+            <p style={{ padding: '2rem', color: 'rgba(255,255,255,0.4)' }}>Loading...</p>
+          ) : campaigns.length === 0 ? (
+            <div className="empty-state"><p>No bookings yet. Share your screen URLs to attract advertisers.</p></div>
+          ) : (
+            <table className="campaign-table">
+              <thead>
+                <tr>
+                  <th>Screen</th>
+                  <th>Dates</th>
+                  <th>Status</th>
+                  <th>Revenue</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {campaigns.length === 0 && (
-            <div className="empty-state">
-              <p>No campaign activity yet.</p>
-            </div>
+              </thead>
+              <tbody>
+                {campaigns.map(camp => (
+                  <tr key={camp.id}>
+                    <td>
+                      <div className="campaign-screen-name">{camp.screen_name}</div>
+                    </td>
+                    <td>{camp.start_date} – {camp.end_date}</td>
+                    <td>
+                      <span className={`campaign-status status-${camp.status}`}>{camp.status}</span>
+                    </td>
+                    <td className="revenue">{formatINR(camp.price || 0)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
       </section>

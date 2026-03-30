@@ -10,8 +10,10 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [fieldErrors, setFieldErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [forgotSent, setForgotSent] = useState(false)
+  const [showForgot, setShowForgot] = useState(false)
   
-  const { login } = useAuth()
+  const { login, forgotPassword } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -22,7 +24,6 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    // Inline validation
     const errs = {}
     if (!email.trim()) errs.email = 'Email is required.'
     if (!password.trim()) errs.password = 'Password is required.'
@@ -33,11 +34,21 @@ export default function LoginPage() {
     try {
       const loginEmail = role === 'owner' && !email.includes('owner') ? `owner_${email}` : email
       await login(loginEmail, password)
-      navigate('/dashboard')
+      navigate(role === 'owner' ? '/owner' : '/dashboard')
     } catch (err) {
-      setError('Failed to login. Please check your credentials.')
+      setError(err.message || 'Failed to login. Please check your credentials.')
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  const handleForgotPassword = async () => {
+    if (!email.trim()) { setFieldErrors({ email: 'Enter your email first.' }); return; }
+    try {
+      await forgotPassword(email)
+      setForgotSent(true)
+    } catch (err) {
+      setError(err.message || 'Could not send reset email.')
     }
   }
 
@@ -85,7 +96,17 @@ export default function LoginPage() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <label htmlFor="password">Password</label>
+              <button
+                type="button"
+                className="auth-link"
+                style={{ fontSize: '0.8rem', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                onClick={handleForgotPassword}
+              >
+                Forgot password?
+              </button>
+            </div>
             <input 
               id="password"
               type="password" 
@@ -96,6 +117,12 @@ export default function LoginPage() {
             />
             {fieldErrors.password && <span className="form-field-error">{fieldErrors.password}</span>}
           </div>
+
+          {forgotSent && (
+            <div className="auth-error" style={{ background: 'rgba(80,200,80,0.1)', borderColor: 'rgba(80,200,80,0.3)', color: '#88cc88' }}>
+              ✓ Reset link sent to {email}. Check your inbox.
+            </div>
+          )}
 
           <button 
             type="submit" 
