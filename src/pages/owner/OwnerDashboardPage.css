@@ -1,144 +1,244 @@
 .owner-dashboard {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-}
-
-.owner-header {
-  margin-bottom: var(--space-2);
-}
-
-.owner-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 2rem;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-}
-
-.owner-subtitle {
-  color: var(--text-secondary);
-  font-size: 1rem;
-}
-
-.metrics-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: 1fr 300px;
+  gap: 2.5rem;
 }
 
-.metric-card-owner {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 1.5rem;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+.owner-dashboard__main {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 2.5rem;
+  min-width: 0;
 }
 
-.metric-header {
+.owner-grid-v2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+/* ── HUD Re-use ─────────────────────────────────────────────────────────── */
+/* These styles are shared with Advertiser Dashboard but localized here for safety */
+.adv-stats-row-v2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+/* ── Booking Queue V2 ─────────────────────────────────────────────────── */
+.booking-list-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.booking-item-v2 {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.bi-thumb-v2 {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bi-info-v2 {
+  flex: 1;
+}
+
+.bi-name-v2 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.bi-meta-v2 {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 0.25rem;
+  letter-spacing: 0.05em;
+}
+
+.bi-price-v2 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.bi-actions-v2 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bi-btn-accept-v2 {
+  padding: 0.5rem 1.25rem;
+  background: var(--color-primary);
+  border-radius: 8px;
+  color: #000;
+  font-weight: 800;
+  font-size: 0.75rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(var(--color-primary-rgb), 0.3);
+}
+
+/* ── Earnings Trend V2 ────────────────────────────────────────────────── */
+.chart-container-v2 {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  height: 140px;
+  margin-top: 1.5rem;
+}
+
+.bar-group-v2 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.bar-track-v2 {
+  width: 100%;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.bar-fill-v2 {
+  width: 100%;
+  border-radius: 4px;
+  transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bar-day-v2 {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Payouts V2 ────────────────────────────────────────────────────────── */
+.payout-list-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.payout-item-v2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.payout-item-v2:last-child { border-bottom: none; }
+
+.pi-id-v2 {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pi-date-v2 {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.pi-val-v2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* ── Calendar V2 ───────────────────────────────────────────────────────── */
+.mini-calendar-v2 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-top: 1rem;
+}
+
+.cal-day-label-v2 {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.3);
+  padding-bottom: 0.5rem;
+}
+
+.cal-date-v2 {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid transparent;
+}
+
+.cal-date-v2.booked {
+  background: rgba(245, 166, 35, 0.2);
+  border-color: rgba(245, 166, 35, 0.3);
+  color: var(--color-primary);
+}
+
+.cal-date-v2.active {
+  background: rgba(0, 212, 255, 0.2);
+  border-color: rgba(0, 212, 255, 0.3);
+  color: #00D4FF;
+}
+
+/* ── Network Pulse V2 ─────────────────────────────────────────────────── */
+.pulse-list-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.pulse-item-v2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.metric-card-owner .metric-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.metric-icon {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  font-size: 0.9rem;
-}
-
-.metric-card-owner .metric-value {
-  font-family: 'Syne', sans-serif;
-  font-size: 2rem;
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-.metric-trend {
-  font-size: 0.8rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.trend-up {
-  color: #48c774;
-}
-
-.trend-down {
-  color: #ff6b6b;
-}
-
-.recent-campaigns {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 1.5rem;
-}
-
-.section-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.25rem;
-  color: var(--text-primary);
-  margin-bottom: 1.25rem;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-}
-
-.campaign-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 600px;
-}
-
-.campaign-table th {
-  text-align: left;
-  padding: 1rem;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.campaign-table td {
-  padding: 1.25rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-  color: var(--text-primary);
-  font-size: 0.95rem;
-}
-
-.campaign-table td.revenue {
-  font-family: 'Space Mono', monospace;
+.pulse-label-v2 {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
   font-weight: 600;
 }
 
-.campaign-screen-name {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.campaign-brand {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  margin-top: 0.25rem;
+.pulse-val-v2 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
 }

@@ -2,20 +2,18 @@ import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import Sidebar from './Sidebar'
+import TopBar from './TopBar'
+import './Sidebar.css'
 
-const SECTIONS = [
+const ADVERTISER_SECTIONS = [
   {
-    label: 'Campaign Hub',
     links: [
-      { label: 'Dashboard',       to: '/advertiser',            icon: '📊' },
-      { label: 'Discover Screens', to: '/advertiser/discover',  icon: '🗺️' },
-      { label: 'My Campaigns',    to: '/advertiser/campaigns',  icon: '📋' },
-    ],
-  },
-  {
-    label: 'Tools',
-    links: [
-      { label: 'Book a Screen',   to: '/advertiser/book',       icon: '🚀' },
+      { label: 'Dashboard',         to: '/advertiser/dashboard',   icon: '📈' },
+      { label: 'My Campaigns',      to: '/advertiser/campaigns',   icon: '📋' },
+      { label: 'Discover Screens',  to: '/advertiser/discover',    icon: '🗺️' },
+      { label: 'Analytics',         to: '/advertiser/analytics',   icon: '📉' },
+      { label: 'Billing',           to: '/advertiser/billing',     icon: '💳' },
+      { label: 'Settings',          to: '/advertiser/settings',    icon: '⚙️' },
     ],
   },
 ]
@@ -26,7 +24,7 @@ export default function AdvertiserLayout() {
 
   useEffect(() => {
     if (!isLoading && (!user || user.role === 'owner')) {
-      navigate(user ? '/owner' : '/login')
+      navigate(user ? '/owner/dashboard' : '/login')
     }
   }, [user, isLoading, navigate])
 
@@ -37,10 +35,13 @@ export default function AdvertiserLayout() {
 
   if (isLoading || !user) {
     return (
-      <div className="portal-loading" style={{ '--portal-accent': 'var(--color-secondary)', '--portal-accent-rgb': '0, 210, 253' }}>
+      <div 
+        className="portal-loading" 
+        style={{ '--portal-accent': '#00D4FF', '--portal-accent-rgb': '0, 212, 255' }}
+      >
         <div className="portal-loading__inner">
           <div className="portal-loading__spinner" />
-          <span className="portal-loading__text">Loading Campaign Hub...</span>
+          <span className="portal-loading__text">Initializing Feed...</span>
         </div>
       </div>
     )
@@ -50,25 +51,25 @@ export default function AdvertiserLayout() {
     <div
       className="portal-layout"
       style={{
-        '--portal-accent': 'var(--color-secondary)',
-        '--portal-accent-rgb': '0, 210, 253',
-        '--portal-accent-secondary': 'var(--color-secondary-container)',
+        '--portal-accent': '#00D4FF', /* Specific advertiser cyan */
+        '--portal-accent-rgb': '0, 212, 255',
+        '--portal-accent-secondary': 'rgba(0, 212, 255, 0.2)',
       }}
     >
       <Sidebar
-        badge="Advertiser"
-        sections={SECTIONS}
-        user={user}
+        sections={ADVERTISER_SECTIONS}
         onLogout={handleLogout}
-        insight={{
-          label: 'Campaign Tip',
-          icon: '💡',
-          text: 'Morning slots (6–10 AM) in metro stations show 40% higher engagement rates.',
-        }}
+        actionLabel="Create Campaign"
+        onAction={() => navigate('/advertiser/discover')}
       />
-      <main className="portal-main">
-        <Outlet />
-      </main>
+      <div className="portal-container">
+        <TopBar title="Command Center" showSearch />
+        <main className="portal-main">
+          <div className="portal-content-limit">
+            <Outlet />
+          </div>
+        </main>
+      </div>
     </div>
   )
 }

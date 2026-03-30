@@ -2,20 +2,17 @@ import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import Sidebar from './Sidebar'
+import TopBar from './TopBar'
+import './Sidebar.css'
 
-const SECTIONS = [
+const OWNER_SECTIONS = [
   {
-    label: 'My Screens',
     links: [
-      { label: 'Dashboard',     to: '/owner',             icon: '📊' },
-      { label: 'Inventory',     to: '/owner/inventory',   icon: '📺' },
+      { label: 'Overview',      to: '/owner/dashboard',   icon: '📊' },
+      { label: 'My Screens',    to: '/owner/inventory',   icon: '📺' },
       { label: 'Booking Queue', to: '/owner/bookings',    icon: '📥' },
-    ],
-  },
-  {
-    label: 'Finance',
-    links: [
       { label: 'Earnings',      to: '/owner/earnings',    icon: '💰' },
+      { label: 'Settings',      to: '/owner/settings',    icon: '⚙️' },
     ],
   },
 ]
@@ -46,7 +43,7 @@ export default function OwnerLayout() {
       >
         <div className="portal-loading__inner">
           <div className="portal-loading__spinner" />
-          <span className="portal-loading__text">Loading Owner Portal...</span>
+          <span className="portal-loading__text">Establishing Link...</span>
         </div>
       </div>
     )
@@ -56,25 +53,25 @@ export default function OwnerLayout() {
     <div
       className="portal-layout"
       style={{
-        '--portal-accent': 'var(--color-primary)',
-        '--portal-accent-rgb': '255, 200, 128',
-        '--portal-accent-secondary': 'var(--color-primary-container)',
+        '--portal-accent': '#F5A623', /* Specific owner amber */
+        '--portal-accent-rgb': '245, 166, 35',
+        '--portal-accent-secondary': 'rgba(245, 166, 35, 0.2)',
       }}
     >
       <Sidebar
-        badge="Owner"
-        sections={SECTIONS}
-        user={user}
+        sections={OWNER_SECTIONS}
         onLogout={handleLogout}
-        insight={{
-          label: 'AI Insight',
-          icon: '🧠',
-          text: 'Screens in transit hubs see 3× more bookings on weekdays. Consider adjusting pricing.',
-        }}
+        actionLabel="Add New Screen"
+        onAction={() => navigate('/owner/inventory/new')}
       />
-      <main className="portal-main">
-        <Outlet />
-      </main>
+      <div className="portal-container">
+        <TopBar title="Command Center" />
+        <main className="portal-main">
+          <div className="portal-content-limit">
+            <Outlet />
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
