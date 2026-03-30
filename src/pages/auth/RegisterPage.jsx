@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import './AuthPages.css'
@@ -8,27 +8,35 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
-  const [role, setRole] = useState('advertiser') // 'advertiser' or 'owner'
+  const [role, setRole] = useState('advertiser')
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   
   const { register } = useAuth()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    document.title = 'Create Account — LUMAD';
+    return () => { document.title = 'LUMAD'; };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    
-    if (password !== passwordConfirm) {
-      setError('Passwords do not match.')
-      return
-    }
-
+    // Inline validation
+    const errs = {}
+    if (!name.trim()) errs.name = 'Full name is required.'
+    if (!email.trim()) errs.email = 'Email is required.'
+    if (!password.trim()) errs.password = 'Password is required.'
+    if (!passwordConfirm.trim()) errs.passwordConfirm = 'Please confirm your password.'
+    else if (password !== passwordConfirm) errs.passwordConfirm = 'Passwords do not match.'
+    if (Object.keys(errs).length > 0) { setFieldErrors(errs); return; }
+    setFieldErrors({})
     setIsSubmitting(true)
     
     try {
       await register(name, email, password, role)
-      
       if (role === 'advertiser') {
         navigate('/dashboard')
       } else {
@@ -76,12 +84,12 @@ export default function RegisterPage() {
             <input 
               id="name"
               type="text" 
-              className="form-input" 
+              className={`form-input ${fieldErrors.name ? 'form-input--error' : ''}`}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => { setName(e.target.value); setFieldErrors(f=>({...f,name:''})) }}
               placeholder="Acme Corp"
-              required 
             />
+            {fieldErrors.name && <span className="form-field-error">{fieldErrors.name}</span>}
           </div>
           
           <div className="form-group">
@@ -89,12 +97,12 @@ export default function RegisterPage() {
             <input 
               id="email"
               type="email" 
-              className="form-input" 
+              className={`form-input ${fieldErrors.email ? 'form-input--error' : ''}`}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => { setEmail(e.target.value); setFieldErrors(f=>({...f,email:''})) }}
               placeholder="name@company.com"
-              required 
             />
+            {fieldErrors.email && <span className="form-field-error">{fieldErrors.email}</span>}
           </div>
 
           <div className="form-group">
@@ -102,12 +110,12 @@ export default function RegisterPage() {
             <input 
               id="password"
               type="password" 
-              className="form-input" 
+              className={`form-input ${fieldErrors.password ? 'form-input--error' : ''}`}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => { setPassword(e.target.value); setFieldErrors(f=>({...f,password:''})) }}
               placeholder="••••••••"
-              required 
             />
+            {fieldErrors.password && <span className="form-field-error">{fieldErrors.password}</span>}
           </div>
 
           <div className="form-group">
@@ -115,12 +123,12 @@ export default function RegisterPage() {
             <input 
               id="passwordConfirm"
               type="password" 
-              className="form-input" 
+              className={`form-input ${fieldErrors.passwordConfirm ? 'form-input--error' : ''}`}
               value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
+              onChange={(e) => { setPasswordConfirm(e.target.value); setFieldErrors(f=>({...f,passwordConfirm:''})) }}
               placeholder="••••••••"
-              required 
             />
+            {fieldErrors.passwordConfirm && <span className="form-field-error">{fieldErrors.passwordConfirm}</span>}
           </div>
 
           <button 

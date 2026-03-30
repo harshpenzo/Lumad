@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import AmberButton from '../ui/AmberButton'
@@ -46,8 +46,20 @@ export default function Navbar() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
+  // Close menu on click outside
+  const menuRef = useRef(null)
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [menuOpen])
+
   return (
-    <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`} role="banner">
+    <header ref={menuRef} className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`} role="banner">
       <nav className="navbar__inner container" aria-label="Main navigation">
 
         {/* Logo */}
@@ -87,15 +99,24 @@ export default function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className={`navbar__hamburger ${menuOpen ? 'navbar__hamburger--open' : ''}`}
+          className="navbar__hamburger"
           onClick={() => setMenuOpen((o) => !o)}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
         >
-          <span className="navbar__hamburger-bar" />
-          <span className="navbar__hamburger-bar" />
-          <span className="navbar__hamburger-bar" />
+          {menuOpen ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          )}
         </button>
       </nav>
 
@@ -110,6 +131,7 @@ export default function Navbar() {
             <li key={to}>
               <Link
                 to={to}
+                onClick={() => setMenuOpen(false)}
                 className={`navbar__mobile-link ${location.pathname === to ? 'navbar__mobile-link--active' : ''}`}
               >
                 {label}

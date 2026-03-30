@@ -20,6 +20,11 @@ export default function DiscoveryPage() {
     window.scrollTo(0, 0)
   }, [])
 
+  useEffect(() => {
+    document.title = 'Discover Screens — LUMAD';
+    return () => { document.title = 'LUMAD'; };
+  }, []);
+
   return (
     <main className="discovery-layout">
       {/* Sidebar - Controls & List */}

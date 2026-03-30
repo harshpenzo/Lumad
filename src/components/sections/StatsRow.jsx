@@ -11,15 +11,18 @@ import './StatsRow.css'
  */
 
 function StatItem({ end, suffix = '', prefix = '', label, decimals = 0 }) {
-  const { count, ref } = useCountUp({ end, duration: 2200, decimals })
+  const { count, ref, hasStarted } = useCountUp({ end, duration: 2200, decimals })
   return (
     <div className="stats-item" ref={ref}>
       <div className="stats-item__value mono" aria-label={`${prefix}${end}${suffix} ${label}`}>
         {prefix}
-        <span className="stats-item__number">
+        <span 
+          className="stats-item__number"
+          style={{ opacity: hasStarted ? 1 : 0, transition: 'opacity 0.3s' }}
+        >
           {decimals > 0
-            ? count.toFixed(decimals)
-            : formatIndianNumber(Math.round(count))
+            ? (hasStarted ? count.toFixed(decimals) : end.toFixed(decimals))
+            : formatIndianNumber(Math.round(hasStarted ? count : end))
           }
         </span>
         {suffix && <span className="stats-item__suffix">{suffix}</span>}
@@ -39,7 +42,7 @@ export default function StatsRow() {
           <StatItem end={5200}   suffix="+"  label="Screens live across India" />
           <StatItem end={200}    suffix="+"  label="Cities and towns covered" />
           <StatItem end={12000}  suffix="+"  label="Campaigns delivered" />
-          <StatItem end={4.8}    suffix="/5" label="Advertiser satisfaction" decimals={1} />
+          <StatItem end={4.8}    suffix="★"  label="Average advertiser rating" decimals={1} />
         </dl>
       </div>
     </section>

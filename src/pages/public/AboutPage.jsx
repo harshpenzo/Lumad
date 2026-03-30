@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import GlassCard from '../../components/ui/GlassCard'
 import AmberButton from '../../components/ui/AmberButton'
@@ -42,6 +43,11 @@ const ADVISORS = [
 
 
 export default function AboutPage() {
+  useEffect(() => {
+    document.title = 'About Us — LUMAD';
+    return () => { document.title = 'LUMAD'; };
+  }, []);
+
   const heroRef   = useScrollReveal(0.1)
   const quoteRef  = useScrollReveal(0.1)
   const wayRef    = useScrollReveal(0.1)

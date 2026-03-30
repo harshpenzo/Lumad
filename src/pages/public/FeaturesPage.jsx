@@ -33,7 +33,10 @@ const FEATURES = [
 export default function FeaturesPage() {
   useEffect(() => {
     window.scrollTo(0, 0)
+    document.title = 'Platform Features — LUMAD';
+    return () => { document.title = 'LUMAD'; };
   }, [])
+
 
   return (
     <main className="features-page animate-fadeIn">

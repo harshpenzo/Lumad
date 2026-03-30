@@ -96,6 +96,16 @@
 .footer__link:hover {
   color: var(--color-primary);
 }
+/* Button-styled footer links (Coming Soon) */
+.footer__link--btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+}
+
 
 /* ─── Bottom bar ────────────────────────────────────────────── */
 .footer__bottom {

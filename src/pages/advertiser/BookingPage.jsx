@@ -27,8 +27,10 @@ export default function BookingPage() {
       navigate('/discover')
     } else {
       dispatch({ type: 'SET_SCREEN', payload: screen })
+      document.title = `Book a Screen — LUMAD`;
       setLoading(false)
     }
+    return () => { document.title = 'LUMAD'; };
   }, [screenId, navigate, dispatch])
 
   if (loading || !state.selectedScreen) {

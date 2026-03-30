@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import './AuthPages.css'
@@ -6,23 +6,32 @@ import './AuthPages.css'
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [role, setRole] = useState('advertiser') // 'advertiser' or 'owner'
+  const [role, setRole] = useState('advertiser')
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   
   const { login } = useAuth()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    document.title = 'Log In — LUMAD';
+    return () => { document.title = 'LUMAD'; };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    // Inline validation
+    const errs = {}
+    if (!email.trim()) errs.email = 'Email is required.'
+    if (!password.trim()) errs.password = 'Password is required.'
+    if (Object.keys(errs).length > 0) { setFieldErrors(errs); return; }
+    setFieldErrors({})
     setIsSubmitting(true)
     
     try {
-      // Small cheat: since it's mock auth, we let 'owner' in their role and 'advertiser' in theirs
-      // The context sets role based on 'owner' string in email, so we dynamically tweak email for demo
       const loginEmail = role === 'owner' && !email.includes('owner') ? `owner_${email}` : email
-      
       await login(loginEmail, password)
       navigate('/dashboard')
     } catch (err) {
@@ -67,12 +76,12 @@ export default function LoginPage() {
             <input 
               id="email"
               type="email" 
-              className="form-input" 
+              className={`form-input ${fieldErrors.email ? 'form-input--error' : ''}`}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => { setEmail(e.target.value); setFieldErrors(f => ({...f, email: ''})) }}
               placeholder="name@company.com"
-              required 
             />
+            {fieldErrors.email && <span className="form-field-error">{fieldErrors.email}</span>}
           </div>
 
           <div className="form-group">
@@ -80,12 +89,12 @@ export default function LoginPage() {
             <input 
               id="password"
               type="password" 
-              className="form-input" 
+              className={`form-input ${fieldErrors.password ? 'form-input--error' : ''}`}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => { setPassword(e.target.value); setFieldErrors(f => ({...f, password: ''})) }}
               placeholder="••••••••"
-              required 
             />
+            {fieldErrors.password && <span className="form-field-error">{fieldErrors.password}</span>}
           </div>
 
           <button 

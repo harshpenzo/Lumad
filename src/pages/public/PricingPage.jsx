@@ -12,6 +12,8 @@ export default function PricingPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    document.title = 'Pricing — LUMAD';
+    return () => { document.title = 'LUMAD'; };
   }, [])
 
   return (

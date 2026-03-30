@@ -1,0 +1,49 @@
+/* Shared styles for Terms, Privacy, Cookie legal pages */
+.legal-page {
+  min-height: calc(100vh - 140px);
+  background: #0e0e13;
+  padding: 8rem 0 6rem;
+}
+
+.legal-page__inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.legal-page__label {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.legal-page__title {
+  font-family: var(--font-display, 'Outfit', sans-serif);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 2.5rem;
+  line-height: 1.1;
+}
+
+.legal-page__content {
+  border: 1px solid rgba(82, 69, 52, 0.3);
+  border-radius: 16px;
+  padding: 2.5rem;
+  background: rgba(24, 24, 32, 0.6);
+}
+
+.legal-page__placeholder {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.legal-page__placeholder a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.legal-page__placeholder a:hover {
+  text-decoration: underline;
+}

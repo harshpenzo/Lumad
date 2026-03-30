@@ -1,42 +1,49 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Toast from '../ui/Toast'
 import './Footer.css'
 
 /**
  * Footer
- * Sourced from Stitch mobile screen (fbbd0961616146f382a4c69b87ebf7ca):
- * Links: Terms of Service, Privacy Policy, API Docs, Support, Status
- * Also from homepage bottom: tagline "Light up every screen."
+ * Links: real routes go to pages, "Coming Soon" shows toast notification.
  */
+
+const COMING_SOON = ['API Docs', 'Careers', 'Press', 'Contact Us', 'Support', 'Monetization', 'Status']
 
 const FOOTER_LINKS = {
   Platform: [
     { label: 'Screen Discovery', to: '/discover' },
     { label: 'Features',         to: '/features' },
     { label: 'Pricing',          to: '/pricing' },
-    { label: 'API Docs',         to: '#' },
+    { label: 'API Docs',         to: null },
   ],
   Company: [
     { label: 'About LUMAD', to: '/about' },
-    { label: 'Contact Us',  to: '#' },
-    { label: 'Careers',     to: '#' },
-    { label: 'Press',       to: '#' },
+    { label: 'Contact Us',  to: null },
+    { label: 'Careers',     to: null },
+    { label: 'Press',       to: null },
   ],
   'Screen Owners': [
     { label: 'List Your Screen', to: '/owner' },
     { label: 'Owner Dashboard',  to: '/owner/dashboard' },
-    { label: 'Monetization',     to: '#' },
-    { label: 'Support',          to: '#' },
+    { label: 'Monetization',     to: null },
+    { label: 'Support',          to: null },
   ],
   Legal: [
-    { label: 'Terms of Service', to: '#' },
-    { label: 'Privacy Policy',   to: '#' },
-    { label: 'Cookie Policy',    to: '#' },
-    { label: 'Status',           to: '#' },
+    { label: 'Terms of Service', to: '/terms' },
+    { label: 'Privacy Policy',   to: '/privacy' },
+    { label: 'Cookie Policy',    to: '/cookies' },
+    { label: 'Status',           to: null },
   ],
 }
 
 export default function Footer() {
   const year = new Date().getFullYear()
+  const [toast, setToast] = useState(null)
+
+  function showComingSoon(label) {
+    setToast(`${label} is coming soon! Stay tuned.`)
+  }
 
   return (
     <footer className="footer" role="contentinfo">
@@ -66,7 +73,16 @@ export default function Footer() {
               <ul role="list">
                 {links.map(({ label, to }) => (
                   <li key={label}>
-                    <Link to={to} className="footer__link">{label}</Link>
+                    {to ? (
+                      <Link to={to} className="footer__link">{label}</Link>
+                    ) : (
+                      <button
+                        className="footer__link footer__link--btn"
+                        onClick={() => showComingSoon(label)}
+                      >
+                        {label}
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -82,12 +98,15 @@ export default function Footer() {
             © {year} LUMAD Technologies Pvt. Ltd. All rights reserved.
           </p>
           <div className="footer__bottom-links">
-            <Link to="#" className="footer__bottom-link">Terms</Link>
-            <Link to="#" className="footer__bottom-link">Privacy</Link>
-            <Link to="#" className="footer__bottom-link">Status</Link>
+            <Link to="/terms" className="footer__bottom-link">Terms</Link>
+            <Link to="/privacy" className="footer__bottom-link">Privacy</Link>
+            <button className="footer__bottom-link footer__link--btn" onClick={() => showComingSoon('Status')}>Status</button>
           </div>
         </div>
       </div>
+
+      {/* Toast */}
+      {toast && <Toast message={toast} onClose={() => setToast(null)} />}
     </footer>
   )
 }

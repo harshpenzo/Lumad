@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import { BookingProvider } from './context/BookingContext'
 import { AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext'
@@ -12,6 +13,9 @@ import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import DashboardPage from './pages/advertiser/DashboardPage'
 import NotFoundPage from './pages/public/NotFoundPage'
+import TermsPage from './pages/public/TermsPage'
+import PrivacyPage from './pages/public/PrivacyPage'
+import CookiePage from './pages/public/CookiePage'
 
 import OwnerLayout from './components/layout/OwnerLayout'
 import OwnerDashboardPage from './pages/owner/OwnerDashboardPage'
@@ -21,14 +25,22 @@ import FeaturesPage from './pages/public/FeaturesPage'
 import PricingPage from './pages/public/PricingPage'
 
 /**
+ * ScrollToTop — resets window scroll to top on every route change.
+ */
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
+
+/**
  * ProtectedRoute — redirects unauthenticated users to /login.
  */
 function ProtectedRoute({ children }) {
   const { user, isLoading } = useAuth()
-
-  // Don't redirect while auth state is being restored from localStorage
   if (isLoading) return null
-
   if (!user) {
     return <Navigate to="/login" replace />
   }
@@ -53,6 +65,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <BookingProvider>
+          <ScrollToTop />
           <Routes>
             {/* ── Owner Portal (Dedicated Sidebar Layout) ── */}
             <Route
@@ -74,11 +87,16 @@ export default function App() {
             <Route path="/features" element={<StandardLayout><FeaturesPage /></StandardLayout>} />
             <Route path="/pricing" element={<StandardLayout><PricingPage /></StandardLayout>} />
 
+            {/* ── Legal Pages ── */}
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/cookies" element={<CookiePage />} />
+
             {/* ── Auth Pages ── */}
             <Route path="/login" element={<StandardLayout><LoginPage /></StandardLayout>} />
             <Route path="/register" element={<StandardLayout><RegisterPage /></StandardLayout>} />
 
-            {/* ── Advertiser Pages (Protected) ── */}
+            {/* ── Advertiser Pages ── */}
             <Route
               path="/discover"
               element={<StandardLayout><DiscoveryPage /></StandardLayout>}

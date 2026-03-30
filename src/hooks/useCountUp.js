@@ -13,6 +13,7 @@ export function useCountUp({ end, start = 0, duration = 2000, decimals = 0 }) {
   const [count, setCount] = useState(start)
   const ref = useRef(null)
   const started = useRef(false)
+  const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
     const el = ref.current
@@ -22,6 +23,7 @@ export function useCountUp({ end, start = 0, duration = 2000, decimals = 0 }) {
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true
+          setHasStarted(true)
           animateCount()
           observer.unobserve(el)
         }
@@ -53,5 +55,5 @@ export function useCountUp({ end, start = 0, duration = 2000, decimals = 0 }) {
     requestAnimationFrame(step)
   }
 
-  return { count, ref }
+  return { count, ref, hasStarted }
 }

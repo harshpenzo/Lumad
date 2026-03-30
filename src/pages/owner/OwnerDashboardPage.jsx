@@ -53,6 +53,11 @@ export default function OwnerDashboardPage() {
     setCampaigns([...userBooked, ...MOCK_OWNER_CAMPAIGNS])
   }, [])
 
+  useEffect(() => {
+    document.title = 'Owner Dashboard — LUMAD';
+    return () => { document.title = 'LUMAD'; };
+  }, [])
+
   // Calculate mock metrics
   const totalRevenue = campaigns
     .filter(c => c.status === 'completed' || c.status === 'active')

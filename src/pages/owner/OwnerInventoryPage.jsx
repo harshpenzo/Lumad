@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { formatINR } from '../../utils/formatCurrency'
 import './OwnerInventoryPage.css'
 
@@ -39,6 +39,11 @@ const INITIAL_SCREENS = [
 export default function OwnerInventoryPage() {
   const [screens, setScreens] = useState(INITIAL_SCREENS)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  useEffect(() => {
+    document.title = 'My Inventory — LUMAD';
+    return () => { document.title = 'LUMAD'; };
+  }, [])
   
   // Form state
   const [newName, setNewName] = useState('')

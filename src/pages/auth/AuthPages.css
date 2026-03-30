@@ -177,3 +177,17 @@
   font-size: 0.9rem;
   text-align: center;
 }
+
+/* Inline field-level validation styles */
+.form-input--error {
+  border-color: #ff5a5a !important;
+}
+
+.form-field-error {
+  color: #ff7a7a;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin-top: -0.25rem;
+}
+

@@ -15,6 +15,11 @@ export default function DashboardPage() {
   }, [user, isLoading, navigate])
 
   useEffect(() => {
+    document.title = 'My Dashboard — LUMAD';
+    return () => { document.title = 'LUMAD'; };
+  }, [])
+
+  useEffect(() => {
     // Load campaigns from localStorage
     const savedCampaigns = JSON.parse(localStorage.getItem('lumad_campaigns') || '[]')
     
