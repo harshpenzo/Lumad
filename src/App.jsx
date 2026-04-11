@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import { BookingProvider } from './context/BookingContext'
 import { AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext'
@@ -141,6 +142,7 @@ export default function App() {
             {/* ── 404 Catch-All ── */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
+          <SpeedInsights />
         </BookingProvider>
       </AuthProvider>
     </BrowserRouter>
